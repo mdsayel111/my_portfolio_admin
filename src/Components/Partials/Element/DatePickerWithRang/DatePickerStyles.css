@@ -1,0 +1,113 @@
+/* Container styling */
+.date-picker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: 0px 20px !important;
+  position: relative; /* Required for absolute positioning of calendar */
+  font-family: "Arial", sans-serif;
+  background-color: #171717;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Footer (displaying selected range) */
+.date-picker-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 4px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+  border: 5px solid #262626;
+}
+
+.date-picker-footer:hover {
+  background-color: #444;
+}
+
+/* Calendar container with absolute positioning and overlap effect */
+.date-picker-calendar {
+  display: none;
+  position: absolute; /* Absolute positioning for overlap */
+  top: 100%; /* Position below the footer */
+  right: 0%;
+  z-index: 9999; /* Ensure it overlaps other content */
+  background-color: #09090b;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  border: 8px solid #171717;
+}
+
+.rdp-selected {
+  background-color: #27272a !important;
+  color: white !important;
+}
+
+.date-picker-calendar.open {
+  display: block;
+  max-height: 700px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Calendar day button styling */
+.rdp-day_button {
+  margin: -1px;
+  gap: 5px !important;
+}
+
+.rdp-range_start .rdp-day_button,
+.rdp-range_end .rdp-day_button {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #0000ff !important;
+  border-radius: 10% !important;
+}
+
+.date-picker-calendar .rdp-day {
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.date-picker-calendar .rdp-day:hover {
+  transform: scale(1.1);
+  background-color: #4a90e2 !important;
+  color: red !important;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.8);
+}
+
+.rdp-dropdown {
+  z-index: 2;
+  opacity: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  inset-block-start: 0;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: inherit;
+  border: none;
+  line-height: inherit;
+  background-color: #09090b;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
