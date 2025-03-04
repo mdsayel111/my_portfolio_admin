@@ -1,27 +1,27 @@
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
-import { ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
+import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import React, { useEffect, useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { MANAGE_BOARD_API } from "../../../Utilities/APIs/APIs";
+import { MANAGE_RESUME_API } from "../../../Utilities/APIs/APIs";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { Loader2 } from "lucide-react";
 import { fetchSingleItem } from "../utils/fetchSingleItem";
-const UpdateBoard = ({ id = null, setEditModal, toggleFetch, ...props }) => {
+const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const axiosInstance = useAxiosInstance();
   const [defaultValues, setDefaultValues] = useState({
-    name: "",
-    tier: "",
+    resumeLink: "",
+    resumeImgLink: "",
   });
   const [value, setValue] = useState(null);
 
   useEffect(() => {
     if (id) {
       fetchSingleItem(
-        id,
+        "",
         axiosInstance,
-        MANAGE_BOARD_API,
+        MANAGE_RESUME_API,
         setValue,
         setError,
         setIsLoading
@@ -32,57 +32,64 @@ const UpdateBoard = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   useEffect(() => {
     if (value) {
       setDefaultValues({
-        name: value.name || "",
-        tier: value.tier || "",
+        resumeLink: value?.data?.resumeLink || "",
+        resumeImgLink: value?.data?.resumeImgLink || "",
       });
     }
   }, [value]);
 
   const handleSubmit = async (data) => {
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("tier", data.tier);
+    formData.append("resumeLink", data.resumeLink);
     try {
       setIsLoading(true);
       const response = await axiosInstance.patch(
-        `${MANAGE_BOARD_API}${id}`,
+        `${MANAGE_RESUME_API}`,
         formData
       );
       if (response.status === 200) {
         toggleFetch();
         setEditModal(false);
       } else {
-        setError(`Failed to update Board.`);
+        setError(`Failed to update Resume.`);
       }
     } catch (error) {
-      setError("An error occurred while updating the Board.");
+      setError("An error occurred while updating the Resume.");
     } finally {
       setIsLoading(false);
     }
   };
+  console.log(defaultValues)
   return (
     <FormWrapper
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       {...props}
+      key={defaultValues?.resumeLink}
     >
       <ShortTextInput
-        name="name"
-        label="Name"
+        name="resumeLink"
+        label="Link"
         className="mb-2"
-        placeholder="Enter Board name"
-        rules={{ required: "Name is required" }}
+        placeholder="Enter Resume link"
+        rules={{ required: "Link is required" }}
       />
-      <ShortTextInput name="tier" label="Tier/s" placeholder="Enter Tier/s" />
+      
+      <ImageInput
+          name={'resumeImageLink'}
+          label={'Image'}
+          className='space-y-1'
+          imagePreviewUrl={defaultValues.resumeImgLink}
+        />
       <Button className="mt-6 w-full">
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          "Update Board"
+          "Update Resume"
         )}
       </Button>
     </FormWrapper>
   );
 };
 
-export default UpdateBoard;
+export default UpdateResume;

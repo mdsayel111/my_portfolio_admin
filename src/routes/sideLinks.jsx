@@ -18,48 +18,11 @@ export const links = [
     path: "/main/dashboard",
     icon: <IconDashboard size={20} />,
   },
-  // {
-  //   label: "Reports",
-  //   icon: <RiBarChartLine size={20} />,
-  //   subMenu: [
-  //     {
-  //       label: "Time Rang Report",
-  //       path: "main/timeRangeReports",
-  //       icon: <RiCalendarTodoLine size={20} />,
-  //     },
-  //     {
-  //       label: "Monthly Report",
-  //       path: "main/monthlyRoports",
-  //       icon: <RiCalendarTodoLine size={20} />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   label: "Boards",
-  //   path: "main/boards",
-  //   icon: <FaRegClipboard size={20} />,
-  // },
   {
     label: "Qualifications",
     path: "main/levels",
     icon: <FaLevelUpAlt size={20} />,
   },
-  // {
-  //   label: "Subjects",
-  //   path: "main/subjects",
-  //   icon: <FaBookOpen size={20} />,
-  // },
-
-  // {
-  //   label: "Packages",
-  //   path: "main/packages",
-  //   icon: <GoPackage size={20} />,
-  // },
-  // {
-  //   label: "Subject-Board",
-  //   path: "main/subjectBoardMaps",
-  //   icon: <MdAssignmentAdd size={20} />,
-  // },
   {
     label: "Venues",
     path: "main/venues",
@@ -80,14 +43,9 @@ export const links = [
     path: "main/applicants",
     icon: <FaUsers size={20} />,
   },
-  // {
-  //   label: "Extra services",
-  //   path: "main/extra-services",
-  //   icon: <MdOutlineMiscellaneousServices size={20} color="#ffffff" />,
-  // },
   {
-    label: "Employees",
-    path: "main/employees",
+    label: "Resume",
+    path: "main/resume",
     icon: <MdAdminPanelSettings size={20} />,
   },
 
@@ -95,16 +53,6 @@ export const links = [
     label: "Website Contents",
     icon: <RiSettings2Line size={20} />,
     subMenu: [
-      // {
-      //   label: "App Settings",
-      //   path: "main/appSettings",
-      //   icon: <RiSettings2Line size={20} />,
-      // },
-      // {
-      //   label: "Hero Sliders",
-      //   path: "main/heroSliders",
-      //   icon: <RiProfileLine size={20} />,
-      // },
       {
         label: "Inquiries",
         path: "main/inquiries",

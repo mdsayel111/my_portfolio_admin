@@ -9,10 +9,11 @@ export function useAxiosInstance() {
     () =>
       axios.create({
         baseURL:
-          import.meta.env.VITE_APP_BACKEND_URL + "api/employeeApp/protected/",
-        headers: {
-          Authorization: "Bearer " + member?.token,
-        },
+          import.meta.env.VITE_APP_BACKEND_URL,
+        // headers: {
+        //   Authorization: "Bearer " + member?.token,
+        // },
+        withCredentials: true,
       }),
     [member]
   );

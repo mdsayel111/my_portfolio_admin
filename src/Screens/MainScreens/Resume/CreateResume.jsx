@@ -5,9 +5,9 @@ import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { MANAGE_BOARD_API } from "../../../Utilities/APIs/APIs";
+import { MANAGE_RESUME_API } from "../../../Utilities/APIs/APIs";
 
-export default function CreateBoard({ setCreateModal, toggleFetch, ...props }) {
+export default function CreateResume({ setCreateModal, toggleFetch, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const axiosInstance = useAxiosInstance();
   const handleSubmit = async (data) => {
@@ -18,27 +18,27 @@ export default function CreateBoard({ setCreateModal, toggleFetch, ...props }) {
 
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post(MANAGE_BOARD_API, formData);
+      const response = await axiosInstance.post(MANAGE_RESUME_API, formData);
       console.log(response, "response");
       if (response.status === 200) {
         toggleFetch();
         setCreateModal(false);
         toast({
           title: "Success",
-          description: "Board created successfully",
+          description: "Resume created successfully",
           varitant: "success",
         });
       } else {
         toast({
           title: "Failed",
-          description: "Could not create Board",
+          description: "Could not create Resume",
           varitant: "desctructive",
         });
       }
     } catch (error) {
       toast({
         title: "Failed",
-        description: "Could not create Board",
+        description: "Could not create Resume",
         varitant: "desctructive",
       });
     } finally {
@@ -48,23 +48,17 @@ export default function CreateBoard({ setCreateModal, toggleFetch, ...props }) {
   return (
     <FormWrapper onSubmit={handleSubmit} {...props}>
       <ShortTextInput
-        name="name"
-        label="Name"
-        placeholder="Enter Board name"
-        rules={{ required: "Name is required" }}
+        name="link"
+        label="Link"
+        placeholder="Enter Resume link"
+        rules={{ required: "Link is required" }}
         className="mb-2 placeholder:text-gray-400"
-      />
-      <ShortTextInput
-        name="tier"
-        label="Tier"
-        placeholder="Enter tier/s"
-        className=" placeholder:text-gray-400"
       />
       <Button className="mt-6 w-full">
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          "Create Board"
+          "Create Resume"
         )}
       </Button>
     </FormWrapper>

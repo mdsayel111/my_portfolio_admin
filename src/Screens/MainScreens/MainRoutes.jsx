@@ -1,6 +1,4 @@
 import Applicants from "./Applicants/Applicants";
-import Boards from "./Boards/Boards";
-// import Categories from "./Categories/Categories";
 import Dashboard from "./Dashboard/Dashboard";
 import Exams from "./Exams/Exams";
 import ExtraServices from "./ExtraServices/ExtraServices";
@@ -14,9 +12,6 @@ import Employees from "./Users/Employees/Employees";
 import Venues from "./Venues/Venues";
 import Testimonials from "./WebsiteContents/Testimonials/Testimonials";
 
-// import MonthlyOrderReports from "./Reports/MonthlyOrderReports";
-// import TimelyRangOrderReports from "./Reports/TimelyRangReports";
-
 import ContactUs from "./ContactUs/ContactUs";
 import GetinTouch from "./FooterContents/GetinTouch/GetinTouch";
 import Timings from "./FooterContents/Timing/Timings";
@@ -25,6 +20,8 @@ import UserContacts from "./UserContact/UserContact";
 import SocialLinks from "./WebsiteContents/SocialLinks/SocialLinks";
 import Subscribers from "./WebsiteContents/Subscribers/Subscribers";
 import UcasMocks from "./UcasMocks/UcasMocks";
+import Resume from "./Resume/Resume";
+// import Resume from "./Resume/Resume"
 
 const main = "main/";
 
@@ -32,7 +29,7 @@ const routesConfig = [
   { path: "dashboard", element: <Dashboard /> },
   // { path: "timeRangeReports", element: <TimelyRangOrderReports /> },
   // { path: "monthlyRoports", element: <MonthlyOrderReports /> },
-  { path: "boards", element: <Boards /> },
+  { path: "resume", element: <Resume />},
   { path: "levels", element: <Levels /> },
   { path: "levels/subjects/:subLevelId", element: <Subjects /> },
   { path: "levels/packages/:subLevelId", element: <Packages /> },
