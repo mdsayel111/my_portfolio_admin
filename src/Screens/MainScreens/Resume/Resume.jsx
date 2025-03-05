@@ -48,7 +48,7 @@ function Resume() {
   useEffect(() => {
     async function fetchData() {
       const { data: resumeData, status } = await axiosInstance.get(
-        `${MANAGE_RESUME_API}?filter=${filter}`
+        `${MANAGE_RESUME_API}`
       );
       if (status === 200) {
         setData(resumeData?.data);
@@ -87,15 +87,16 @@ function Resume() {
         <CLTableBody>
           <CLTableRow>
           <CLTableImageCell
-                  url={data?.resumeImgLink}
-                  altText={'...'}
-                />
+              url={data?.resumeImgLink}
+              altText={'...'}
+            />
             <CLTableCell text={data?.resumeLink} />
             <CLTableActionButtons
-              isActive={data?.isActive}
+              // isActive={data?.isActive}
               target={data}
               hasView={false}
-              hasEdit={data.isActive}
+              hasArchive={false}
+              // hasEdit={data.isActive}
               editBtnProps={{ setEditModal, setTarget }}
               archiveBtnProps={{ setArchiveModal, setTarget }}
             />

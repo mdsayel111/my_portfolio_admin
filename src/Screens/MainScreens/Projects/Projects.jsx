@@ -1,30 +1,26 @@
 import {
-  CLTable,
-  CLTableBody,
-  CLTableHeader,
-  Header,
-  CLTableFooter,
-  Modal,
-  CLTableRow,
-  CLTableCell,
-  CLTableActionButtons,
   ArchiveModal,
+  CLTable,
+  CLTableActionButtons,
+  CLTableBody,
+  CLTableCell,
+  CLTableFooter,
+  CLTableHeader,
+  CLTableImageCell,
+  CLTableRow,
+  Header,
+  Modal,
 } from "@antopolis/admin-component-library/dist/elements";
-import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEntityState } from "@antopolis/admin-component-library/dist/hooks";
+import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEffect } from "react";
-import {
-  ARCHIVE_APPLICANT_API,
-  MANAGE_APPLICANT_API,
-  UNARCHIVE_APPLICANT_API,
-} from "../../../Utilities/APIs/APIs";
-import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import UpdateApplicant from "./UpdateApplicant";
 import CustomModal from "../../../Components/Partials/CustomModal/CustomModal";
-import ViewApplicationModal from "./ViewApplication Modal";
-// import ViewApplicant from "./ViewApplicant";
+import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
+import { MANAGE_Project_API } from "../../../Utilities/APIs/APIs";
+import UpdateProject from "./UpdateProject";
+import ViewProject from "./ViewProject";
 
-function Applicants() {
+function Projects() {
   const axiosInstance = useAxiosInstance();
   const {
     setFilter,
@@ -52,8 +48,8 @@ function Applicants() {
 
   useEffect(() => {
     async function fetchData() {
-      const { data, status } = await axiosInstance.get(
-        `${MANAGE_APPLICANT_API}?filter=${filter}`,
+      const { data:projectsData, status } = await axiosInstance.get(
+        `${MANAGE_Project_API}`,
         {
           params: {
             page: paginationState.currentPage,
@@ -62,26 +58,27 @@ function Applicants() {
         }
       );
       if (status === 200) {
-        setData(data?.applicants);
+        setData(projectsData?.data);
         setTotalPages(data?.totalPages);
         setTotalData(data?.totalItems);
       } else {
-        console.error("Failed to fetch applicants:");
+        console.error("Failed to fetch projects:");
       }
     }
     fetchData();
   }, [toggle, filter, paginationState.currentPage, paginationState.limit]);
 
+  console.log(data)
+
   const headers = [
     { label: "Name" },
-    { label: "Mobile No." },
-    { label: "Email" },
+    { label: "Description" },
   ];
 
   return (
     <CardLayout>
       <Header
-        heading="Applicants"
+        heading="Projects"
         hasModal={false}
         filterAndSearchProps={{
           filter,
@@ -98,25 +95,19 @@ function Applicants() {
         <CLTableHeader headers={headers} hasActions={true} />
         <CLTableBody>
           {data?.length > 0
-            ? data.map((applicant) => (
-                <CLTableRow key={applicant?._id}>
-                  <CLTableCell
-                    text={
-                      applicant?.firstName +
-                      " " +
-                      applicant.middleName +
-                      " " +
-                      applicant?.lastName
-                    }
+            ? data.map((project) => (
+                <CLTableRow key={project?._id}>
+                  <CLTableImageCell
+                    url={project?.imgLink}
+                    altText={'...'}
                   />
-                  <CLTableCell text={applicant?.mobileNumber} />
-                  <CLTableCell text={applicant?.emailAddress} />
+                  <CLTableCell text={project?.description?.slice(0,100)} />
                   <CLTableActionButtons
                     hasView={true}
                     viewBtnProps={{ setViewModal, setTarget }}
-                    isActive={applicant?.isActive}
-                    target={applicant}
-                    hasEdit={applicant.isActive}
+                    isActive={project?.isActive}
+                    target={project}
+                    hasEdit={project.isActive}
                     editBtnProps={{ setEditModal, setTarget }}
                     archiveBtnProps={{ setArchiveModal, setTarget }}
                   />
@@ -126,7 +117,7 @@ function Applicants() {
         </CLTableBody>
       </CLTable>
       <CLTableFooter
-        dataLabel="Applicants"
+        dataLabel="Projects"
         hasPagination={true}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
@@ -135,16 +126,16 @@ function Applicants() {
 
       {viewModal && (
         <CustomModal>
-          <ViewApplicationModal target={target} setViewModal={setViewModal} />
+          <ViewProject target={target} setViewModal={setViewModal} />
         </CustomModal>
       )}
 
       <Modal
         isOpen={editModal}
         onClose={setEditModal}
-        title={"Update Applicant"}
+        title={"Update Project"}
       >
-        <UpdateApplicant
+        <UpdateProject
           setEditModal={setEditModal}
           id={target?._id}
           toggleFetch={toggleFetch}
@@ -165,7 +156,7 @@ function Applicants() {
           }}
           toggleFetch={toggleFetch}
           api={`${
-            target.isActive ? ARCHIVE_APPLICANT_API : UNARCHIVE_APPLICANT_API
+            target.isActive ? ARCHIVE_PROJECT_API : UNARCHIVE_PROJECT_API
           }${target?._id}`}
           axiosInstance={axiosInstance}
           successMessage={`${
@@ -189,4 +180,4 @@ function Applicants() {
   );
 }
 
-export default Applicants;
+export default Projects;

@@ -1,4 +1,3 @@
-import Applicants from "./Applicants/Applicants";
 import Dashboard from "./Dashboard/Dashboard";
 import Exams from "./Exams/Exams";
 import ExtraServices from "./ExtraServices/ExtraServices";
@@ -16,11 +15,12 @@ import ContactUs from "./ContactUs/ContactUs";
 import GetinTouch from "./FooterContents/GetinTouch/GetinTouch";
 import Timings from "./FooterContents/Timing/Timings";
 import SubLevel from "./Levels/components/subLevel/SubLevelScreen";
+import Projects from "./Projects/Projects";
+import Resume from "./Resume/Resume";
+import UcasMocks from "./UcasMocks/UcasMocks";
 import UserContacts from "./UserContact/UserContact";
 import SocialLinks from "./WebsiteContents/SocialLinks/SocialLinks";
 import Subscribers from "./WebsiteContents/Subscribers/Subscribers";
-import UcasMocks from "./UcasMocks/UcasMocks";
-import Resume from "./Resume/Resume";
 // import Resume from "./Resume/Resume"
 
 const main = "main/";
@@ -38,7 +38,7 @@ const routesConfig = [
   { path: "inquiries", element: <Inquiries /> },
   { path: "exams", element: <Exams /> },
   { path: "ucas-mocks", element: <UcasMocks /> },
-  { path: "applicants", element: <Applicants /> },
+  { path: "projects", element: <Projects /> },
   { path: "extra-services", element: <ExtraServices /> },
   { path: "employees", element: <Employees /> },
   { path: "testimonials", element: <Testimonials /> },

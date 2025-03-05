@@ -1,12 +1,12 @@
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
 import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
+import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
+import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
 import { MANAGE_RESUME_API } from "../../../Utilities/APIs/APIs";
-import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
-import { Loader2 } from "lucide-react";
-import { fetchSingleItem } from "../utils/fetchSingleItem";
 import { uploadImage } from "../../../Utilities/uploadImage";
+import { fetchSingleItem } from "../utils/fetchSingleItem";
 const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

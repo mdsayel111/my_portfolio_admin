@@ -39,8 +39,8 @@ export const links = [
     icon: <PiExam size={20} />,
   },
   {
-    label: "Applicants",
-    path: "main/applicants",
+    label: "Projects",
+    path: "main/projects",
     icon: <FaUsers size={20} />,
   },
   {

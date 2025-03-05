@@ -2,7 +2,7 @@ import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
 import { ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import React, { useEffect, useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { MANAGE_APPLICANT_API } from "../../../Utilities/APIs/APIs";
+import { MANAGE_APPLICANT_API, MANAGE_Project_API } from "../../../Utilities/APIs/APIs";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { Loader2 } from "lucide-react";
 import { fetchSingleItem } from "../utils/fetchSingleItem";
@@ -21,17 +21,10 @@ const UpdateApplicant = ({
     { value: "female", label: "female" },
   ];
   const [defaultValues, setDefaultValues] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    dob: "",
-    gender: "",
-    homeAddress: "",
-    town: "",
-    postcode: "",
-    emailAddress: "",
-    homeTelephone: "",
-    mobileNumber: "",
+    imgLink: "",
+    liveLink: "",
+    clientCodeLink: "",
+    serverCodeLink: "",
   });
   const [value, setValue] = useState(null);
 
@@ -40,7 +33,7 @@ const UpdateApplicant = ({
       fetchSingleItem(
         id,
         axiosInstance,
-        MANAGE_APPLICANT_API,
+        MANAGE_Project_API,
         setValue,
         setError,
         setIsLoading
@@ -51,17 +44,12 @@ const UpdateApplicant = ({
   useEffect(() => {
     if (value) {
       setDefaultValues({
-        firstName: value.firstName || "",
-        middleName: value.middleName || "",
-        lastName: value.lastName || "",
-        dob: value.dob || "",
-        gender: value.gender || "",
-        homeAddress: value.homeAddress || "",
-        town: value.town || "",
-        postcode: value.postcode || "",
-        emailAddress: value.emailAddress || "",
-        homeTelephone: value.homeTelephone || "",
-        mobileNumber: value.mobileNumber || "",
+        imgLink: value?.data?.imgLink || "",
+        projectName: value?.data?.projectName || "",
+        description: value?.data?.description || "",
+        liveLink: value?.data?.liveLink || "",
+        clientCodeLink: value?.data?.clientCodeLink || "",
+        serverCodeLink: value?.data?.serverCodeLink || "",
       });
     }
   }, [value]);
@@ -97,85 +85,48 @@ const UpdateApplicant = ({
       setIsLoading(false);
     }
   };
+
+  console.log(defaultValues)
   return (
     <FormWrapper
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
       {...props}
+      key={defaultValues?.projectName}
     >
       <div className="max-h-[75vh] overflow-auto">
         <ShortTextInput
-          name="firstName"
-          label="First Name"
+          name="projectName"
+          label="Project Name"
           placeholder="Enter"
+          rules={{ required: "Project Name is required" }}
         />
         <ShortTextInput
-          name="middleName"
-          label="Middle Name"
+          name="description"
+          label="MDescription"
           placeholder="Enter"
-          rules={{ required: "Middle Name is required" }}
+          rules={{ required: "Description is required" }}
           className="mb-2"
         />
         <ShortTextInput
-          name="lastName"
-          label="Last Name"
+          name="liveLink"
+          label="Live Link"
           placeholder="Enter"
-          rules={{ required: "Last Name is required" }}
+          rules={{ required: "Live Link is required" }}
           className="mb-2"
         />
         <ShortTextInput
-          name="dob"
-          label="Date of Birth"
+          name="clientCodeLink"
+          label="Client Code Link"
           placeholder="Enter"
-          rules={{ required: "Date of Birth is required" }}
-          className="mb-2"
-        />
-        <SelectInput
-          options={genderOptions}
-          name="gender"
-          label="Gender"
-          placeholder="Select Gender"
-        />
-        <ShortTextInput
-          name="homeAddress"
-          label="Home Address"
-          placeholder="Enter"
-          rules={{ required: "Home Address is required" }}
+          rules={{ required: "Client Code Link is required" }}
           className="mb-2"
         />
         <ShortTextInput
-          name="town"
-          label="Town"
+          name="serverCodeLink"
+          label="Server Code Link"
           placeholder="Enter"
-          rules={{ required: "Town is required" }}
-          className="mb-2"
-        />
-        <ShortTextInput
-          name="postcode"
-          label="Postcode"
-          placeholder="Enter"
-          rules={{ required: "Postcode is required" }}
-          className="mb-2"
-        />
-        <ShortTextInput
-          name="emailAddress"
-          label="Email Address"
-          placeholder="Enter"
-          rules={{ required: "Email Address is required" }}
-          className="mb-2"
-        />
-        <ShortTextInput
-          name="homeTelephone"
-          label="Home Telephone"
-          placeholder="Enter"
-          rules={{ required: "Home Telephone is required" }}
-          className="mb-2"
-        />
-        <ShortTextInput
-          name="mobileNumber"
-          label="Mobile Number"
-          placeholder="Enter"
-          rules={{ required: "Mobile Number is required" }}
+          rules={{ required: "Server Code Link is required" }}
           className="mb-2"
         />
       </div>
