@@ -6,6 +6,7 @@ import { MANAGE_RESUME_API } from "../../../Utilities/APIs/APIs";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { Loader2 } from "lucide-react";
 import { fetchSingleItem } from "../utils/fetchSingleItem";
+import { uploadImage } from "../../../Utilities/uploadImage";
 const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -39,13 +40,17 @@ const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   }, [value]);
 
   const handleSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("resumeLink", data.resumeLink);
+    const updateData = {};
+    updateData.resumeLink = data?.resumeLink
+    if(data?.resumeImageLink){
+      const imageLink = await uploadImage(data?.resumeImageLink);
+      updateData.resumeImgLink = imageLink;
+    }
     try {
       setIsLoading(true);
       const response = await axiosInstance.patch(
         `${MANAGE_RESUME_API}`,
-        formData
+        updateData
       );
       if (response.status === 200) {
         toggleFetch();

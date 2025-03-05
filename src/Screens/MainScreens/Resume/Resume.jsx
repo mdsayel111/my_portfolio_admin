@@ -63,8 +63,6 @@ function Resume() {
     { label: "Image", className: "min-w-24" },
     { label: "Link", className: "min-w-24" },
   ];
-  
-  console.log(data)
   return (
     <CardLayout>
       <Header
