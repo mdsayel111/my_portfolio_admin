@@ -10,12 +10,14 @@ import {
 } from "../../../Utilities/APIs/APIs";
 import { uploadImage } from "../../../Utilities/uploadImage";
 import { fetchSingleItem } from "../utils/fetchSingleItem";
+import CustomEditor from "../../../Components/Partials/CustomIditor/CustomEditor";
 
 const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const axiosInstance = useAxiosInstance();
   const [value, setValue] = useState(null);
+  const [description, setDescription] = useState("");
 
   const [defaultValues, setDefaultValues] = useState({});
 
@@ -99,7 +101,7 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
     <FormWrapper
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
-      key={defaultValues._id}
+      key={`${defaultValues.name}`}
       {...props}
     >
       <ShortTextInput
@@ -118,15 +120,16 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
         rules={{ required: "Name is required" }}
         className="mb-2 placeholder:text-gray-400"
       />
-      <ShortTextInput
+      {/* <ShortTextInput
         name="description"
         label="Description"
         type="text"
         placeholder="Enter"
         rules={{ required: "Description is required" }}
         className="mb-2 placeholder:text-gray-400"
-      />
-      <ImageInputgi
+      /> */}
+      <CustomEditor label={"Description"} data={description} setState={setDescription}/>
+      <ImageInput
         name={'image'}
         label={'Image'}
         className='space-y-1'
