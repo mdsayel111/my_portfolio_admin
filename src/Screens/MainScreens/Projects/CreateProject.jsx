@@ -1,90 +1,65 @@
+import { useState } from "react";
+import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
+import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
 import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
-import { Loader2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
+import { uploadImage } from "../../../Utilities/uploadImage";
 import { MANAGE_PROJECT_API } from "../../../Utilities/APIs/APIs";
-import { fetchSingleItem } from "../utils/fetchSingleItem";
-const UpdateProject = ({
-  id = null,
-  setEditModal,
-  toggleFetch,
-  ...props
-}) => {
+import { Loader2 } from "lucide-react";
+
+
+export default function CreateProject({ setCreateModal, toggleFetch, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const axiosInstance = useAxiosInstance();
-  const [defaultValues, setDefaultValues] = useState({});
-  const [value,setValue] = useState(null)
-
-  useEffect(() => {
-    if (id) {
-      fetchSingleItem(
-        id,
-        axiosInstance,
-        MANAGE_PROJECT_API,
-        setValue,
-        setError,
-        setIsLoading
-      );
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (value) {
-      setDefaultValues({
-        image: value?.data?.imgLink || "",
-        projectName: value?.data?.projectName || "",
-        description: value?.data?.description || "",
-        liveLink: value?.data?.liveLink || "",
-        clientCodeLink: value?.data?.clientCodeLink || "",
-        serverCodeLink: value?.data?.serverCodeLink || "",
-      });
-      console.log(value?.data?.liveLink)
-    }
-  }, [value]);
-
-  console.log(defaultValues)
-
   const handleSubmit = async (data) => {
-    const updateData = {
+    const createData ={
       serverCodeLink: data?.serverCodeLink,
       clientCodeLink: data?.clientCodeLink,
       liveLink: data?.liveLink,
       description: data?.description,
       projectName: data?.projectName
     }
+
     if(typeof data?.image !== "string"){
       const imageLink = await uploadImage(data?.image);
-      updateData.resumeImgLink = imageLink;
+      createData.imgLink = imageLink;
     }
+
+    console.log(createData)
+    setIsLoading(true);
     try {
       setIsLoading(true);
-      const response = await axiosInstance.patch(
-        `${MANAGE_PROJECT_API}${id}`,
-        updateData
-      );
+      const response = await axiosInstance.post(
+        MANAGE_PROJECT_API, createData);
+
       if (response.status === 200) {
         toggleFetch();
-        setEditModal(false);
+        setCreateModal(false);
+        toast({
+          title: "Success",
+          description: "project created successfully",
+          varitant: "success",
+        });
       } else {
-        setError(`Failed to update Project.`);
+        toast({
+          title: "Failed",
+          description: "Could not create project",
+          varitant: "desctructive",
+        });
       }
     } catch (error) {
-      setError("An error occurred while updating the Project.");
+      toast({
+        title: "Failed",
+        description: "Could not create project",
+        varitant: "desctructive",
+      });
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
-    <FormWrapper
-      defaultValues={defaultValues}
-      onSubmit={handleSubmit}
-      {...props}
-      key={defaultValues?.projectName}
-    >
+    <FormWrapper onSubmit={handleSubmit} {...props}>
       <div className="max-h-[75vh] overflow-auto">
         <ShortTextInput
           name="projectName"
@@ -103,7 +78,7 @@ const UpdateProject = ({
           name="liveLink"
           label="Live Link"
           placeholder="Enter"
-          rules={{ required: "Live Link is required" }}liveLink
+          rules={{ required: "Live Link is required" }}
           className="mb-2"
         />
         <ShortTextInput
@@ -124,19 +99,16 @@ const UpdateProject = ({
           name={'image'}
           label={'Image'}
           className='space-y-1'
-          imagePreviewUrl={defaultValues.image}
         />
       </div>
 
       <Button className="mt-6 w-full">
         {isLoading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <Loader2 className="mr-2 w-4 h-4 animate-spin" />
         ) : (
-          "Update Project"
+          "Create Project"
         )}
       </Button>
     </FormWrapper>
   );
-};
-
-export default UpdateProject;
+}

@@ -11,11 +11,12 @@ const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const axiosInstance = useAxiosInstance();
+  const [value, setValue] = useState(null);
   const [defaultValues, setDefaultValues] = useState({
     resumeLink: "",
-    resumeImgLink: "",
+    image: "",
   });
-  const [value, setValue] = useState(null);
+
 
   useEffect(() => {
     if (id) {
@@ -34,16 +35,17 @@ const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
     if (value) {
       setDefaultValues({
         resumeLink: value?.data?.resumeLink || "",
-        resumeImgLink: value?.data?.resumeImgLink || "",
+        image: value?.data?.resumeImgLink || "",
       });
     }
   }, [value]);
 
   const handleSubmit = async (data) => {
-    const updateData = {};
-    updateData.resumeLink = data?.resumeLink
-    if(data?.resumeImageLink){
-      const imageLink = await uploadImage(data?.resumeImageLink);
+    const updateData = {
+      resumeLink: data?.resumeLink
+    };
+    if(typeof data?.image !== "string"){
+      const imageLink = await uploadImage(data?.image);
       updateData.resumeImgLink = imageLink;
     }
     try {
@@ -64,7 +66,7 @@ const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       setIsLoading(false);
     }
   };
-  console.log(defaultValues)
+
   return (
     <FormWrapper
       defaultValues={defaultValues}
@@ -81,11 +83,11 @@ const UpdateResume = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       />
       
       <ImageInput
-          name={'resumeImageLink'}
-          label={'Image'}
-          className='space-y-1'
-          imagePreviewUrl={defaultValues.resumeImgLink}
-        />
+        name={'image'}
+        label={'Image'}
+        className='space-y-1'
+        imagePreviewUrl={defaultValues.image}
+      />
       <Button className="mt-6 w-full">
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -13,12 +13,14 @@ import {
 } from "@antopolis/admin-component-library/dist/elements";
 import { useEntityState } from "@antopolis/admin-component-library/dist/hooks";
 import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CustomModal from "../../../Components/Partials/CustomModal/CustomModal";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { MANAGE_Project_API } from "../../../Utilities/APIs/APIs";
 import UpdateProject from "./UpdateProject";
 import ViewProject from "./ViewProject";
+import CreateProject from "./CreateProject";
+import { MANAGE_PROJECT_API } from "../../../Utilities/APIs/APIs";
+import CustomHeader from "../../../Components/Partials/CustomHeader/CustomHeader";
 
 function Projects() {
   const axiosInstance = useAxiosInstance();
@@ -27,6 +29,8 @@ function Projects() {
     setEditModal,
     editModal,
     viewModal,
+    createModal,
+    setCreateModal,
     setViewModal,
     filter,
     toggle,
@@ -46,10 +50,12 @@ function Projects() {
     setTotalData,
   } = useEntityState();
 
+  console.log(setCreateModal)
+
   useEffect(() => {
     async function fetchData() {
       const { data:projectsData, status } = await axiosInstance.get(
-        `${MANAGE_Project_API}`,
+        `${MANAGE_PROJECT_API}`,
         {
           params: {
             page: paginationState.currentPage,
@@ -77,19 +83,7 @@ function Projects() {
 
   return (
     <CardLayout>
-      <Header
-        heading="Projects"
-        hasModal={false}
-        filterAndSearchProps={{
-          filter,
-          setFilter,
-          hasSearch: false,
-          hasFilter: true,
-          toggleFilterValue,
-          toggleFilter,
-          setToggleFilter,
-        }}
-      />
+      <CustomHeader title={"Projects"} btnName={"Project"} createModal={createModal} setCreateModal={setCreateModal}/>
 
       <CLTable>
         <CLTableHeader headers={headers} hasActions={true} />
@@ -141,38 +135,30 @@ function Projects() {
           toggleFetch={toggleFetch}
         />
       </Modal>
+
+      <Modal
+        isOpen={createModal}
+        onClose={setCreateModal}
+        title={"Create New Package"}
+      >
+        <CreateProject
+          setCreateModal={setCreateModal}
+          toggleFetch={toggleFetch}
+        />
+      </Modal>
+      {console.log(target)}
       {archiveModal && (
         <ArchiveModal
           isOpen={archiveModal}
           onClose={() => setArchiveModal(false)}
-          item={{
-            ...target,
-            name:
-              target?.firstName +
-              " " +
-              target?.middleName +
-              " " +
-              target?.lastName,
-          }}
+          item={target}
           toggleFetch={toggleFetch}
-          api={`${
-            target.isActive ? ARCHIVE_PROJECT_API : UNARCHIVE_PROJECT_API
-          }${target?._id}`}
+          api={`${MANAGE_PROJECT_API}${target?._id}`}
           axiosInstance={axiosInstance}
-          successMessage={`${
-            target?.firstName +
-            " " +
-            target?.middleName +
-            " " +
-            target?.lastName
-          } has been archived`}
-          isArchive={target?.isActive}
+          successMessage={`This project has been archived`}
+          isArchive={!target?.isDeleted}
           title={
-            target?.firstName +
-            " " +
-            target?.middleName +
-            " " +
-            target?.lastName
+            "Archive this Project"
           }
         />
       )}
