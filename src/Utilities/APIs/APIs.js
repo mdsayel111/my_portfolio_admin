@@ -2,6 +2,7 @@ export const IMAGE_URL = import.meta.env.VITE_APP_SPACES_URL;
 // APIS
 export const MANAGE_RESUME_API = "resume/";
 export const MANAGE_PROJECT_API = "projects/";
+export const MANAGE_HERO_API = "hero/";
 
 export const WEBSITE_CONTENT_API = "websiteContents/";
 export const APP_SETTINGS_API = WEBSITE_CONTENT_API + "appSettings/";

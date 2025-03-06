@@ -1,27 +1,30 @@
 import {
   CLTable,
-  CLTableBody,
-  CLTableHeader,
-  Header,
-  CLTableFooter,
-  Modal,
-  CLTableRow,
-  CLTableCell,
   CLTableActionButtons,
-  ArchiveModal,
+  CLTableBody,
+  CLTableCell,
+  CLTableFooter,
+  CLTableHeader,
   CLTableImageCell,
+  CLTableRow,
+  Header,
+  Modal
 } from "@antopolis/admin-component-library/dist/elements";
-import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
+import { CLUseParams } from "@antopolis/admin-component-library/dist/helper";
 import { useEntityState } from "@antopolis/admin-component-library/dist/hooks";
-import CreateResume from "./CreateResume";
+import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEffect } from "react";
-import {
-  MANAGE_RESUME_API,
-} from "../../../Utilities/APIs/APIs";
+import CustomModal from "../../../Components/Partials/CustomModal/CustomModal";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import UpdateResume from "./UpdateResume";
+import {
+  MANAGE_HERO_API,
+} from "../../../Utilities/APIs/APIs";
+import UpdateHero from "./UpdateHero";
+import ViewHero from "./ViewHero";
 
-function Resume() {
+// import ViewHero from "./ViewHero";
+
+function Hero() {
   const axiosInstance = useAxiosInstance();
   const {
     setFilter,
@@ -42,40 +45,46 @@ function Resume() {
     toggleFetch,
     setTarget,
     setArchiveModal,
-    archiveModal,
+    viewModal,
+    setViewModal
   } = useEntityState();
+
+  const { subLevelId } = CLUseParams();
 
   useEffect(() => {
     async function fetchData() {
-      const { data: resumeData, status } = await axiosInstance.get(
-        `${MANAGE_RESUME_API}`
+      const { data: heroData, status } = await axiosInstance.get(
+        `${MANAGE_HERO_API}`
       );
       if (status === 200) {
-        setData(resumeData?.data);
+        setData(heroData?.data);
       } else {
-        console.error("Failed to fetch resume!");
+        console.error("Failed to fetch Hero:");
       }
     }
     fetchData();
   }, [toggle, filter]);
 
   const headers = [
-    { label: "Image", className: "min-w-24" },
-    { label: "Link", className: "min-w-24" },
+    { label: "Image" },
+    { label: "Title" },
+    { label: "Name" },
+    { label: "Description" },
   ];
+
   return (
     <CardLayout>
       <Header
-        heading="Resume"
+        heading="Hero"
         openModal={setCreateModal}
-        modalLabel="Create New Resume"
-        searchPlaceholder="Search Resume"
+        modalLabel="Create New Hero"
+        searchPlaceholder="Search Hero"
         hasModal={false}
         filterAndSearchProps={{
           filter,
           setFilter,
           hasSearch: false,
-          hasFilter: true,
+          hasFilter: false,
           toggleFilterValue,
           toggleFilter,
           setToggleFilter,
@@ -85,31 +94,41 @@ function Resume() {
       <CLTable>
         <CLTableHeader headers={headers} hasActions={true} />
         <CLTableBody>
-          <CLTableRow>
-            <CLTableImageCell
-              url={data?.resumeImgLink}
+          <CLTableRow key={data?._id}>
+          <CLTableImageCell
+              url={data?.img}
               altText={'...'}
             />
-            <CLTableCell text={data?.resumeLink} />
+            <CLTableCell text={data?.title} />
+            <CLTableCell text={data?.name} />
+            <CLTableCell text={data?.description} />
             <CLTableActionButtons
               target={data}
-              hasView={false}
+              hasView={true}
+              hasEdit={true}
               hasArchive={false}
               editBtnProps={{ setEditModal, setTarget }}
               archiveBtnProps={{ setArchiveModal, setTarget }}
+              viewBtnProps={{setViewModal, setTarget}}
             />
           </CLTableRow>
         </CLTableBody>
       </CLTable>
       <CLTableFooter
-        dataLabel="Resume"
+        dataLabel="Hero"
         hasPagination={true}
         paginationState={paginationState}
         paginationDispatch={setPaginationState}
       />
 
-      <Modal isOpen={editModal} onClose={setEditModal} title={"Update Resume"}>
-        <UpdateResume
+      {viewModal && (
+        <CustomModal>
+          <ViewHero target={target} setViewModal={setViewModal} />
+        </CustomModal>
+      )}
+
+      <Modal isOpen={editModal} onClose={setEditModal} title={"Update Hero"}>
+        <UpdateHero
           setEditModal={setEditModal}
           id={target?._id}
           toggleFetch={toggleFetch}
@@ -119,4 +138,4 @@ function Resume() {
   );
 }
 
-export default Resume;
+export default Hero;

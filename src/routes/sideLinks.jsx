@@ -19,8 +19,8 @@ export const links = [
     icon: <IconDashboard size={20} />,
   },
   {
-    label: "Qualifications",
-    path: "main/levels",
+    label: "Hero",
+    path: "main/hero",
     icon: <FaLevelUpAlt size={20} />,
   },
   {
