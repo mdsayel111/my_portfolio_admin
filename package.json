@@ -11,11 +11,8 @@
   },
   "dependencies": {
     "@antopolis/admin-component-library": "^1.0.86",
-    "@ckeditor/ckeditor5-build-classic": "^44.3.0",
-    "@ckeditor/ckeditor5-react": "^9.5.0",
     "@tabler/icons-react": "^3.20.0",
     "axios": "^1.7.7",
-    "ckeditor5-custom-build": "^0.0.6",
     "date-fns": "^4.1.0",
     "react": "^18.3.1",
     "react-day-picker": "^9.3.0",
@@ -23,6 +20,7 @@
     "react-hook-form": "^7.53.1",
     "react-icons": "^4.11.0",
     "react-lite-month-picker": "^1.2.19",
+    "react-quill": "^2.0.0",
     "react-slugify": "^4.0.1",
     "socket.io-client": "^4.8.1"
   },

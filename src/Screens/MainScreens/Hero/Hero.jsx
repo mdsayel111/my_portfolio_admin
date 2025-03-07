@@ -127,7 +127,7 @@ function Hero() {
         </CustomModal>
       )}
 
-      <Modal isOpen={editModal} onClose={setEditModal} title={"Update Hero"}>
+      <Modal isOpen={editModal} onClose={setEditModal} title={"Update Hero"} contentClassName="max-h-[70vh] overflow-auto" style={{height: "100vh"}}>
         <UpdateHero
           setEditModal={setEditModal}
           id={target?._id}

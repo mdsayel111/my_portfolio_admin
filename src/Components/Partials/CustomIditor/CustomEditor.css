@@ -1,14 +1,15 @@
-.custom_editor {
-    margin-bottom: 2.4rem;
-    color: #ffff;
+.quill * {
+    color: white;
 }
 
-/* .ck-editor__editable_inline {
-    min-height: 40rem;
-} */
-.ck-content {
-    margin-bottom: 2.4rem;
-    min-height: 20rem;
-    color: black;
+.quill svg path{
+    stroke: white !important;
+}
 
+.ql-editor{
+    height: 300px;
+}
+
+.ql-picker-options * {
+color:black
 }

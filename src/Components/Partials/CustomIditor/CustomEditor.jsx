@@ -1,18 +1,13 @@
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
+import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import "./CustomEditor.css"
 
-function CustomEditor({ setState, data }) {
-    return (
-        <div className="custom_editor">
-            <CKEditor
-                editor={ClassicEditor}
-                data={data}
-                onChange={(event, editor) => {
-                    setState(editor.getData());
-                }}
-            />
-        </div>
-    );
+function CustomEditor({value, setValue}) {
+
+  console.log(value)
+
+  return <ReactQuill theme="snow" value={value} onChange={setValue} />;
 }
 
-export default CustomEditor;
+export default CustomEditor

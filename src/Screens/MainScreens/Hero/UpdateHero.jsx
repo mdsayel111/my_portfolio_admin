@@ -42,9 +42,9 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
         setDefaultValues({
           title: value?.data?.title || "",
           name: value?.data?.name || "",
-          description: value?.data?.description || "",
           image: value?.data?.img || "",
         });
+        setDescription(value?.data?.description)
       }
     }, [value]);
 
@@ -52,7 +52,7 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
     const updateData = {
       name: data?.name,
       title: data?.title,
-      description: data?.description
+      description: description
     }
 
     if(typeof data?.image !== "string"){
@@ -120,15 +120,8 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
         rules={{ required: "Name is required" }}
         className="mb-2 placeholder:text-gray-400"
       />
-      {/* <ShortTextInput
-        name="description"
-        label="Description"
-        type="text"
-        placeholder="Enter"
-        rules={{ required: "Description is required" }}
-        className="mb-2 placeholder:text-gray-400"
-      /> */}
-      <CustomEditor label={"Description"} data={description} setState={setDescription}/>
+      
+      <CustomEditor label={"Description"} value={description} setValue={setDescription}/>
       <ImageInput
         name={'image'}
         label={'Image'}
