@@ -10,10 +10,11 @@ import {
   Header,
   Modal
 } from "@antopolis/admin-component-library/dist/elements";
-import { CLUseParams } from "@antopolis/admin-component-library/dist/helper";
+import { CLUseNavigate, CLUseParams } from "@antopolis/admin-component-library/dist/helper";
 import { useEntityState } from "@antopolis/admin-component-library/dist/hooks";
 import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEffect } from "react";
+import { FaTextHeight } from "react-icons/fa6";
 import CustomModal from "../../../Components/Partials/CustomModal/CustomModal";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
 import {
@@ -26,6 +27,7 @@ import ViewHero from "./ViewHero";
 
 function Hero() {
   const axiosInstance = useAxiosInstance();
+  const navigate = CLUseNavigate();
   const {
     setFilter,
     setEditModal,
@@ -110,6 +112,21 @@ function Hero() {
               editBtnProps={{ setEditModal, setTarget }}
               archiveBtnProps={{ setArchiveModal, setTarget }}
               viewBtnProps={{setViewModal, setTarget}}
+                extraAction
+                extraActions={[
+                  {
+                    onClick: () => {
+                      navigate(`/main/heroAnimationText/${data._id}`);
+                    },
+                    btnProps: {
+                      icon: FaTextHeight,
+                      tooltipText: "ANimation Text",
+                      toolTipContainerClassName:
+                        "!text-slate-500  hover:!bg-slate-500 hover:!text-white",
+                      toolTipClassName: "hover:!text-white ",
+                    },
+                  },
+                ]}                 
             />
           </CLTableRow>
         </CLTableBody>

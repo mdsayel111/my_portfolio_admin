@@ -1,5 +1,5 @@
 import Dashboard from "./Dashboard/Dashboard";
-import Exams from "./Exams/Exams";
+// import Exams from "./Exams/Exams";
 import ExtraServices from "./ExtraServices/ExtraServices";
 import Inquiries from "./Inquiries/Inquiries";
 
@@ -21,6 +21,7 @@ import UcasMocks from "./UcasMocks/UcasMocks";
 import UserContacts from "./UserContact/UserContact";
 import SocialLinks from "./WebsiteContents/SocialLinks/SocialLinks";
 import Subscribers from "./WebsiteContents/Subscribers/Subscribers";
+import HeroAnimationText from "./Hero/HeroAnimationText/HeroAnimationText";
 
 const main = "main/";
 
@@ -29,6 +30,7 @@ const routesConfig = [
   { path: "resume", element: <Resume />},
   { path: "projects", element: <Projects /> },
   { path: "hero", element: <Hero /> },
+  { path: "heroAnimationText/:heroId", element: <HeroAnimationText /> },
 
 
   { path: "levels", element: <Levels /> },
@@ -36,7 +38,7 @@ const routesConfig = [
   { path: "subjectBoardMaps", element: <SubjectBoardMaps /> },
   { path: "venues", element: <Venues /> },
   { path: "inquiries", element: <Inquiries /> },
-  { path: "exams", element: <Exams /> },
+  // { path: "exams", element: <Exams /> },
   { path: "ucas-mocks", element: <UcasMocks /> },
   { path: "extra-services", element: <ExtraServices /> },
   { path: "employees", element: <Employees /> },
