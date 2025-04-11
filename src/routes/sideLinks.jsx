@@ -24,7 +24,11 @@ export const links = [
     icon: <FaLevelUpAlt size={20} />,
   },
   {
-    label: "Venues",
+    label: "aboutMe",
+    path: "main/aboutMe",
+    icon: <FaLevelUpAlt size={20} />,
+  },
+  {
     path: "main/venues",
     icon: <FaMapLocationDot size={20} />,
   },

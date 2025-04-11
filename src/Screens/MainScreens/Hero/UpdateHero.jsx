@@ -17,7 +17,7 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [error, setError] = useState(null);
   const axiosInstance = useAxiosInstance();
   const [value, setValue] = useState(null);
-  const [description, setDescription] = useState("");
+  // const [description, setDescription] = useState("");
 
   const [defaultValues, setDefaultValues] = useState({});
 
@@ -37,11 +37,10 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   console.log(value, "value")
 
     useEffect(() => {
-      console.log(value)
       if (value) {
         setDefaultValues({
-          title: value?.data?.title || "",
-          name: value?.data?.name || "",
+          // title: value?.data?.title || "",
+          // name: value?.data?.name || "",
           image: value?.data?.img || "",
         });
         setDescription(value?.data?.description)
@@ -50,14 +49,14 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
 
   const handleSubmit = async (data) => {
     const updateData = {
-      name: data?.name,
-      title: data?.title,
-      description: description
+      // name: data?.name,
+      // title: data?.title,
+      // description: description
     }
 
     if(typeof data?.image !== "string"){
       const imageLink = await uploadImage(data?.image);
-      updateData.img = imageLink;
+      updateData.image = imageLink;
     }
 
     try {
@@ -104,7 +103,7 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       key={`${defaultValues.name}`}
       {...props}
     >
-      <ShortTextInput
+      {/* <ShortTextInput
         name="title"
         label="Title"
         type="text"
@@ -119,9 +118,9 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
         placeholder="Enter"
         rules={{ required: "Name is required" }}
         className="mb-2 placeholder:text-gray-400"
-      />
+      /> */}
       
-      <CustomEditor label={"Description"} value={description} setValue={setDescription}/>
+      {/* <CustomEditor label={"Description"} value={description} setValue={setDescription}/> */}
       <ImageInput
         name={'image'}
         label={'Image'}

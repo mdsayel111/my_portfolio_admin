@@ -1,18 +1,20 @@
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
-import { ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
-import { SelectInput } from "@antopolis/admin-component-library/dist/inputs";
+import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
-import React, { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { MANAGE_VENUE_API } from "../../../Utilities/APIs/APIs";
+import { MANAGE_ABOUT_ME_API } from "../../../Utilities/APIs/APIs";
 import { fetchSingleItem } from "../utils/fetchSingleItem";
+import CustomEditor from "../../../Components/Partials/CustomIditor/CustomEditor";
+import { uploadImage } from "../../../Utilities/uploadImage";
 
-const UpdateVenue = ({ id = null, setEditModal, toggleFetch, ...props }) => {
+const UpdateAboutMe = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const axiosInstance = useAxiosInstance();
+  const [description, setDescription] = useState("");
 
   const [defaultValues, setDefaultValues] = useState({
     name: "",
@@ -26,7 +28,7 @@ const UpdateVenue = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       fetchSingleItem(
         id,
         axiosInstance,
-        MANAGE_VENUE_API,
+        MANAGE_ABOUT_ME_API,
         setValue,
         setError,
         setIsLoading
@@ -34,32 +36,34 @@ const UpdateVenue = ({ id = null, setEditModal, toggleFetch, ...props }) => {
     }
   }, [id]);
 
+  console.log(defaultValues)
+
   useEffect(() => {
     if (value) {
       setDefaultValues({
-        name: value.name || "",
-        details: value.details || "",
-        coordinates:
-          !value.coordinates.latitude || !value.coordinates.longitude
-            ? ""
-            : `${value.coordinates.latitude}, ${value.coordinates.longitude}`,
+        title: value?.data?.title || "",
+        image: value?.data?.image || "",
       });
+      setDescription(value?.data?.description)
     }
   }, [value]);
 
   const handleSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("details", data.details);
-    const [latitude, longitude] = data.coordinates.split(", ");
-    const coordinates = { latitude: latitude, longitude: longitude };
-    formData.append("coordinates", JSON.stringify(coordinates));
+    let imageLink = defaultValues.image;
 
+    if(typeof data?.image !== "string"){
+      
+      imageLink = await uploadImage(data?.image);;
+    }
     try {
       setIsLoading(true);
       const response = await axiosInstance.patch(
-        `${MANAGE_VENUE_API}${id}`,
-        formData
+        `${MANAGE_ABOUT_ME_API}${id}`,
+        {
+          title: data?.title,
+          description: description,
+          image: imageLink,
+        }
       );
       if (response.status === 200) {
         toggleFetch();
@@ -94,35 +98,29 @@ const UpdateVenue = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       {...props}
     >
       <ShortTextInput
-        name="name"
+        name="title"
         label="Name"
         placeholder="Enter Subject name"
         rules={{ required: "Name is required" }}
         className="mb-2 placeholder:text-gray-400"
       />
-      <ShortTextInput
-        name="details"
-        label="Details"
-        placeholder="Enter Details"
-        className="mb-2 placeholder:text-gray-400"
-      />
-      <ShortTextInput
-        name="coordinates"
-        label="Coordinates"
-        placeholder="Enter coordinates e.g 23.773050893048406, 90.40703311189634"
-        rules={{ required: "Coordinates is required" }}
-        className="mb-2 placeholder:text-gray-400"
+      <CustomEditor label={"Description"} value={description} setValue={setDescription}/>
+      <ImageInput
+        name={'image'}
+        label={'Image'}
+        className='space-y-1'
+        imagePreviewUrl={defaultValues.image}
       />
 
       <Button className="mt-6 w-full">
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          "Update Venue"
+          "Update AboutMe"
         )}
       </Button>
     </FormWrapper>
   );
 };
 
-export default UpdateVenue;
+export default UpdateAboutMe;

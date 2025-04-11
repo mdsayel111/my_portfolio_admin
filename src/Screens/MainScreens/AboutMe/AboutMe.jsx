@@ -9,22 +9,21 @@ import {
   CLTableCell,
   CLTableActionButtons,
   ArchiveModal,
+  CLTableImageCell,
 } from "@antopolis/admin-component-library/dist/elements";
 import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEntityState } from "@antopolis/admin-component-library/dist/hooks";
 import { useEffect } from "react";
 import {
-  ARCHIVE_VENUE_API,
-  MANAGE_VENUE_API,
-  UNARCHIVE_VENUE_API,
+  MANAGE_ABOUT_ME_API,
 } from "../../../Utilities/APIs/APIs";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import UpdateVenue from "./UpdateVenue";
-import CreateVenue from "./CreateVenue";
+import UpdateAboutMe from "./UpdateAboutMe";
+import CreateAboutMe from "./CreateAboutMe";
 
-// import ViewVenue from "./ViewVenue";
+// import ViewAboutMe from "./ViewAboutMe";
 
-function Venues() {
+function AboutMe() {
   const axiosInstance = useAxiosInstance();
   const {
     setFilter,
@@ -53,7 +52,7 @@ function Venues() {
   useEffect(() => {
     async function fetchData() {
       const { data, status } = await axiosInstance.get(
-        `${MANAGE_VENUE_API}?filter=${filter}`,
+        `${MANAGE_ABOUT_ME_API}?filter=${filter}`,
         {
           params: {
             page: paginationState.currentPage,
@@ -62,7 +61,7 @@ function Venues() {
         }
       );
       if (status === 200) {
-        setData(data?.venues);
+        setData(data?.data);
         setTotalPages(data?.totalPages);
         setTotalData(data?.totalItems);
       } else {
@@ -72,15 +71,15 @@ function Venues() {
     fetchData();
   }, [toggle, filter, paginationState.currentPage, paginationState.limit]);
 
-  const headers = [{ label: "Name" }, { label: "Details" }];
+  const headers = [{ label: "Image" },{ label: "Name" },  { label: "Description" }];
 
   return (
     <CardLayout>
       <Header
-        heading="Venues"
+        heading="About Me"
         openModal={setCreateModal}
-        modalLabel="Create New Venue"
-        searchPlaceholder="Search Venue"
+        modalLabel="Create New About Me"
+        searchPlaceholder="Search About Me"
         filterAndSearchProps={{
           filter,
           setFilter,
@@ -95,27 +94,30 @@ function Venues() {
       <CLTable>
         <CLTableHeader headers={headers} hasActions={true} />
         <CLTableBody>
-          {data?.length > 0
-            ? data.map((venues) => (
-                <CLTableRow key={venues._id}>
-                  <CLTableCell text={venues?.name} />
-                  <CLTableCell text={venues?.details} />
+
+                <CLTableRow key={data._id}>
+                <CLTableImageCell
+              url={data?.image}
+              altText={'...'}
+            />
+                  <CLTableCell text={data?.title} />
+                  <CLTableCell text={data?.description} />
 
                   <CLTableActionButtons
-                    isActive={venues?.isActive}
-                    target={venues}
+                    isActive={data?.isActive}
+                    target={data}
                     hasView={false}
-                    hasEdit={venues.isActive}
+                    hasEdit={true}
                     editBtnProps={{ setEditModal, setTarget }}
-                    archiveBtnProps={{ setArchiveModal, setTarget }}
+                    hasArchive={false}
+                    // archiveBtnProps={{ setArchiveModal, setTarget }}
                   />
                 </CLTableRow>
-              ))
-            : null}
+
         </CLTableBody>
       </CLTable>
       <CLTableFooter
-        dataLabel="Venues"
+        dataLabel="AboutMe"
         hasPagination={true}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
@@ -125,23 +127,23 @@ function Venues() {
       <Modal
         isOpen={createModal}
         onClose={setCreateModal}
-        title={"Create New Venue"}
+        title={"Create New AboutMe"}
       >
-        <CreateVenue
+        <CreateAboutMe
           setCreateModal={setCreateModal}
           toggleFetch={toggleFetch}
         />
       </Modal>
 
-      <Modal isOpen={editModal} onClose={setEditModal} title={"Update Venue"}>
-        <UpdateVenue
+      <Modal isOpen={editModal} onClose={setEditModal} title={"Update AboutMe"}>
+        <UpdateAboutMe
           setEditModal={setEditModal}
           id={target?._id}
           toggleFetch={toggleFetch}
         />
       </Modal>
-      {/* <Modal isOpen={viewModal} onClose={setViewModal} title={"View Venue"}>
-          <ViewVenue />
+      {/* <Modal isOpen={viewModal} onClose={setViewModal} title={"View AboutMe"}>
+          <ViewAboutMe />
         </Modal> */}
       {archiveModal && (
         <ArchiveModal
@@ -149,7 +151,7 @@ function Venues() {
           onClose={() => setArchiveModal(false)}
           item={target}
           toggleFetch={toggleFetch}
-          api={`${target.isActive ? ARCHIVE_VENUE_API : UNARCHIVE_VENUE_API}${
+          api={`${target.isActive ? ARCHIVE_ABOUTME_API : UNARCHIVE_ABOUTME_API}${
             target?._id
           }`}
           axiosInstance={axiosInstance}
@@ -162,4 +164,4 @@ function Venues() {
   );
 }
 
-export default Venues;
+export default AboutMe;

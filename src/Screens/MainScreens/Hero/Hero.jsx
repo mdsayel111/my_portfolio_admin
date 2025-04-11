@@ -69,9 +69,9 @@ function Hero() {
 
   const headers = [
     { label: "Image" },
-    { label: "Title" },
-    { label: "Name" },
-    { label: "Description" },
+    // { label: "Title" },
+    // { label: "Name" },
+    // { label: "Description" },
   ];
 
   return (
@@ -98,12 +98,12 @@ function Hero() {
         <CLTableBody>
           <CLTableRow key={data?._id}>
           <CLTableImageCell
-              url={data?.img}
+              url={data?.image}
               altText={'...'}
             />
-            <CLTableCell text={data?.title} />
+            {/* <CLTableCell text={data?.title} />
             <CLTableCell text={data?.name} />
-            <CLTableCell text={data?.description} />
+            <CLTableCell text={data?.description} /> */}
             <CLTableActionButtons
               target={data}
               hasView={true}
@@ -112,21 +112,21 @@ function Hero() {
               editBtnProps={{ setEditModal, setTarget }}
               archiveBtnProps={{ setArchiveModal, setTarget }}
               viewBtnProps={{setViewModal, setTarget}}
-                extraAction
-                extraActions={[
-                  {
-                    onClick: () => {
-                      navigate(`/main/heroAnimationText/${data._id}`);
-                    },
-                    btnProps: {
-                      icon: FaTextHeight,
-                      tooltipText: "ANimation Text",
-                      toolTipContainerClassName:
-                        "!text-slate-500  hover:!bg-slate-500 hover:!text-white",
-                      toolTipClassName: "hover:!text-white ",
-                    },
-                  },
-                ]}                 
+                // extraAction
+                // extraActions={[
+                //   {
+                //     onClick: () => {
+                //       navigate(`/main/heroAnimationText/${data._id}`);
+                //     },
+                //     btnProps: {
+                //       icon: FaTextHeight,
+                //       tooltipText: "ANimation Text",
+                //       toolTipContainerClassName:
+                //         "!text-slate-500  hover:!bg-slate-500 hover:!text-white",
+                //       toolTipClassName: "hover:!text-white ",
+                //     },
+                //   },
+                // ]}                 
             />
           </CLTableRow>
         </CLTableBody>
