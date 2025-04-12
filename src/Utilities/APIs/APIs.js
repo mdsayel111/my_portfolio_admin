@@ -9,6 +9,7 @@ export const MANAGE_HERO_API = "hero/";
 export const MANAGE_HERO_ANIMATION_TEXT_API = "hero/heroAnimationText/";
 export const MANAGE_ABOUT_ME_API = "aboutMe/";
 export const MANAGE_EXPERIENCE_API = "experience/";
+export const MANAGE_EDUCATION_API = "education/";
 export const MANAGE_SKILL_API = "skill/";
 
 export const WEBSITE_CONTENT_API = "websiteContents/";

@@ -98,6 +98,7 @@ function Projects() {
                   />
                   <CLTableCell text={project?.projectName} />
                   <CLTableCell text={project?.description?.slice(0,100)} />
+                  <CLTableCell text={project?.position} />
                   <CLTableActionButtons
                     hasView={true}
                     viewBtnProps={{ setViewModal, setTarget }}

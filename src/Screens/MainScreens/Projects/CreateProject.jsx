@@ -2,26 +2,29 @@ import { useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
 import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
-import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
+import { ImageInput, ShortTextInput, } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { uploadImage } from "../../../Utilities/uploadImage";
 import { MANAGE_PROJECT_API } from "../../../Utilities/APIs/APIs";
 import { Loader2 } from "lucide-react";
+import { da } from "date-fns/locale";
 
 
 export default function CreateProject({ setCreateModal, toggleFetch, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const axiosInstance = useAxiosInstance();
   const handleSubmit = async (data) => {
-    const createData ={
+    const createData = {
       serverCodeLink: data?.serverCodeLink,
       clientCodeLink: data?.clientCodeLink,
       liveLink: data?.liveLink,
       description: data?.description,
       projectName: data?.projectName
     }
+    const position = !isNaN(data?.position) ? parseInt(data?.position) : 0;
+    createData.position = position;
 
-    if(typeof data?.image !== "string"){
+    if (typeof data?.image !== "string") {
       const imageLink = await uploadImage(data?.image);
       createData.imgLink = imageLink;
     }
@@ -91,7 +94,14 @@ export default function CreateProject({ setCreateModal, toggleFetch, ...props })
         <ShortTextInput
           name="serverCodeLink"
           label="Server Code Link"
-          placeholder="Enter"
+          placeholder="Enter Server Code Link"
+          rules={{ required: "Server Code Link is required" }}
+          className="mb-2"
+        />
+        <ShortTextInput
+          name="position"
+          label="Position"
+          placeholder="Enter Position"
           rules={{ required: "Server Code Link is required" }}
           className="mb-2"
         />

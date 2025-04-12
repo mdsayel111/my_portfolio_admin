@@ -34,6 +34,11 @@ export const links = [
     icon: <FaMapLocationDot size={20} />,
   },
   {
+    path: "main/education",
+    label: "Education",
+    icon: <FaMapLocationDot size={20} />,
+  },
+  {
     label: "Exams",
     path: "main/exams",
     icon: <PiExam size={20} />,

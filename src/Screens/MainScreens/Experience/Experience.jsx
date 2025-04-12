@@ -19,6 +19,7 @@ import {
 } from "../../../Utilities/APIs/APIs";
 import CreateExperience from "./CreateExperience";
 import UpdateExperience from "./UpdateExperience";
+import CustomHeader from "../../../Components/Partials/CustomHeader/CustomHeader";
 
 // import ViewExperience from "./ViewExperience";
 
@@ -73,21 +74,7 @@ function Experiences() {
 
   return (
     <CardLayout>
-      <Header
-        heading={`Experiences`}
-        openModal={setCreateModal}
-        modalLabel="Create New Experience"
-        searchPlaceholder="Search Experience"
-        filterAndSearchProps={{
-          filter,
-          setFilter,
-          hasSearch: false,
-          hasFilter: true,
-          toggleFilterValue,
-          toggleFilter,
-          setToggleFilter,
-        }}
-      />
+      <CustomHeader title={"Experiences"} btnName={"Experience"} createModal={createModal} setCreateModal={setCreateModal} hasCreate={true}/>
 
       <CLTable>
         <CLTableHeader headers={headers} hasActions={true} />
