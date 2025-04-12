@@ -10,7 +10,7 @@ import Employees from "./Users/Employees/Employees";
 // import Venues from "./Venues/Venues";
 import Testimonials from "./WebsiteContents/Testimonials/Testimonials";
 
-import ContactUs from "./ContactUs/ContactUs";
+// import ContactUs from "./ContactUs/ContactUs";
 import GetinTouch from "./FooterContents/GetinTouch/GetinTouch";
 import Timings from "./FooterContents/Timing/Timings";
 import Hero from "./Hero/Hero";
@@ -25,18 +25,24 @@ import HeroAnimationText from "./Hero/HeroAnimationText/HeroAnimationText";
 import AboutMe from "./AboutMe/AboutMe";
 import Experiences from "./Experience/Experience";
 import Educations from "./Education/Education";
+import Skills from "./skills/Skills";
+import Contact from "./Contact/Contact";
+import SocialIcon from "./SocialIcon/SocialIcon";
 
 const main = "main/";
 
 const routesConfig = [
   { path: "dashboard", element: <Dashboard /> },
-  { path: "resume", element: <Resume />},
+  { path: "resume", element: <Resume /> },
   { path: "projects", element: <Projects /> },
   { path: "hero", element: <Hero /> },
   { path: "heroAnimationText/:heroId", element: <HeroAnimationText /> },
   { path: "aboutMe", element: <AboutMe /> },
   { path: "experience", element: <Experiences /> },
   { path: "education", element: <Educations /> },
+  { path: "skill", element: <Skills /> },
+  { path: "contact", element: <Contact /> },
+  { path: "socialIcon", element: <SocialIcon /> },
 
 
   { path: "levels", element: <Levels /> },
@@ -52,7 +58,7 @@ const routesConfig = [
   { path: "social-links", element: <SocialLinks /> },
   { path: "subscribers", element: <Subscribers /> },
   { path: "levels/:id", element: <SubLevel /> },
-  { path: "contact-us", element: <ContactUs /> },
+  // { path: "contact-us", element: <ContactUs /> },
   { path: "user-contacts", element: <UserContacts /> },
   { path: "timings", element: <Timings /> },
   { path: "get-in-touch", element: <GetinTouch /> },

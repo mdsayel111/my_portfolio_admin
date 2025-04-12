@@ -6,6 +6,7 @@ import {
   CLTableCell,
   CLTableFooter,
   CLTableHeader,
+  CLTableImageCell,
   CLTableRow,
   Header,
   Modal,
@@ -15,15 +16,13 @@ import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEffect } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
 import {
-  ARCHIVE_CONTACT_US_API,
-  MANAGE_CONTACT_US_API,
-  UNARCHIVE_CONTACT_US_API
+  MANAGE_CONTACT_API,
 } from "../../../Utilities/APIs/APIs";
-import CreateContactUs from "./components/CreateContactUs";
-import UpdateContactUs from "./components/updateContactUs";
-import ViewContact from "./components/viewContact";
+import UpdateContact from "./UpdateContact";
 
-function ContactUs() {
+// import ViewContact from "./ViewContact";
+
+function Contact() {
   const axiosInstance = useAxiosInstance();
   const {
     setFilter,
@@ -35,26 +34,24 @@ function ContactUs() {
     toggle,
     toggleFilter,
     data,
-    viewModal,
-    setViewModal,
     setData,
     target,
     toggleFilterValue,
     setToggleFilter,
     paginationState,
     setPaginationState,
-    setTotalPages,
-    setTotalData,
     toggleFetch,
     setTarget,
     setArchiveModal,
     archiveModal,
+    setTotalPages,
+    setTotalData,
   } = useEntityState();
 
   useEffect(() => {
     async function fetchData() {
-      const { data: contactUsData, status } = await axiosInstance.get(
-        `${MANAGE_CONTACT_US_API}?filter=${filter}`,
+      const { data, status } = await axiosInstance.get(
+        `${MANAGE_CONTACT_API}?filter=${filter}`,
         {
           params: {
             page: paginationState.currentPage,
@@ -63,28 +60,28 @@ function ContactUs() {
         }
       );
       if (status === 200) {
-        setData(contactUsData?.contactUs);
-        setTotalPages(contactUsData?.totalPages);
-        setTotalData(contactUsData?.totalItems);
+        setData(data?.data);
+        setTotalPages(data?.totalPages);
+        setTotalData(data?.totalItems);
       } else {
-        console.error("Failed to fetch boards:");
+        console.error("Failed to fetch Subjects:");
       }
     }
     fetchData();
-  }, [toggle, filter]);
+  }, [toggle, filter, paginationState.currentPage, paginationState.limit]);
 
-  const headers = [
-    { label: "Address", className: "min-w-24" },
-    { label: "Phone", className: "min-w-36 max-lg:hidden" },
-  ];
+  const headers = [{ label: "Image" },
+    // { label: "Name" },  
+    { label: "Description" }];
 
   return (
     <CardLayout>
       <Header
-        heading="Contact Us"
+        heading="About Me"
         openModal={setCreateModal}
-        modalLabel="Create New Contact Us"
-        searchPlaceholder="Search Contact Us"
+        modalLabel="Create New About Me"
+        searchPlaceholder="Search About Me"
+        hasModal={false}
         filterAndSearchProps={{
           filter,
           setFilter,
@@ -99,80 +96,74 @@ function ContactUs() {
       <CLTable>
         <CLTableHeader headers={headers} hasActions={true} />
         <CLTableBody>
-          {data?.length > 0
-            ? data.map((contactUs) => (
-                <CLTableRow key={contactUs?._id}>
-                  <CLTableCell text={contactUs?.address} />
-                  <CLTableCell
-                    className="max-lg:hidden"
-                    text={contactUs?.phone}
-                  />
+
+                <CLTableRow key={data._id}>
+                <CLTableImageCell
+              url={data?.image}
+              altText={'...'}
+            />
+                  {/* <CLTableCell text={data?.title} /> */}
+                  <CLTableCell text={data?.description} />
 
                   <CLTableActionButtons
-                    isActive={contactUs?.isActive}
-                    target={contactUs}
-                    hasView={true}
-                    hasEdit={contactUs.isActive}
+                    isActive={data?.isActive}
+                    target={data}
+                    hasView={false}
+                    hasEdit={true}
                     editBtnProps={{ setEditModal, setTarget }}
-                    archiveBtnProps={{ setArchiveModal, setTarget }}
-                    viewBtnProps={{ setViewModal, setTarget }}
+                    hasArchive={false}
+                    // archiveBtnProps={{ setArchiveModal, setTarget }}
                   />
                 </CLTableRow>
-              ))
-            : null}
+
         </CLTableBody>
       </CLTable>
       <CLTableFooter
-        dataLabel="Boards"
+        dataLabel="Contact"
         hasPagination={true}
         paginationState={paginationState}
+        setPaginationState={setPaginationState}
         paginationDispatch={setPaginationState}
       />
 
-      <Modal
+      {/* <Modal
         isOpen={createModal}
         onClose={setCreateModal}
-        title={"Create New Board"}
+        title={"Create New Contact"}
       >
-        <CreateContactUs
+        <CreateContact
           setCreateModal={setCreateModal}
           toggleFetch={toggleFetch}
         />
-      </Modal>
+      </Modal> */}
 
-      <Modal
-        isOpen={editModal}
-        onClose={setEditModal}
-        title={"Update Contact Us"}
-      >
-        <UpdateContactUs
+      <Modal isOpen={editModal} onClose={setEditModal} title={"Update Contact"}>
+        <UpdateContact
           setEditModal={setEditModal}
           id={target?._id}
           toggleFetch={toggleFetch}
         />
       </Modal>
-      {viewModal && (
-        <Modal isOpen={viewModal} onClose={setViewModal} title={"View Contact"}>
-          <ViewContact target={target} setViewModal={setViewModal} />
-        </Modal>
-      )}
+      {/* <Modal isOpen={viewModal} onClose={setViewModal} title={"View Contact"}>
+          <ViewContact />
+        </Modal> */}
       {archiveModal && (
         <ArchiveModal
           isOpen={archiveModal}
           onClose={() => setArchiveModal(false)}
           item={target}
           toggleFetch={toggleFetch}
-          api={`${
-            target.isActive ? ARCHIVE_CONTACT_US_API : UNARCHIVE_CONTACT_US_API
-          }${target?._id}`}
+          api={`${target.isActive ? ARCHIVE_CONTACT_API : UNARCHIVE_CONTACT_API}${
+            target?._id
+          }`}
           axiosInstance={axiosInstance}
-          successMessage={`Item has been archived`}
+          successMessage={`${target?.name} has been archived`}
           isArchive={target?.isActive}
-          title={target?.address}
+          title={target?.name}
         />
       )}
     </CardLayout>
   );
 }
 
-export default ContactUs;
+export default Contact;

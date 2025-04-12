@@ -1,13 +1,12 @@
-import { useState } from "react";
-import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
 import { ImageInput, ShortTextInput, } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
-import { uploadImage } from "../../../Utilities/uploadImage";
-import { MANAGE_PROJECT_API } from "../../../Utilities/APIs/APIs";
+import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
 import { Loader2 } from "lucide-react";
-import { da } from "date-fns/locale";
+import { useState } from "react";
+import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
+import { MANAGE_PROJECT_API } from "../../../Utilities/APIs/APIs";
+import { uploadImage } from "../../../Utilities/uploadImage";
 
 
 export default function CreateProject({ setCreateModal, toggleFetch, ...props }) {

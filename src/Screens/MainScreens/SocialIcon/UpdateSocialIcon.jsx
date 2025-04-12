@@ -5,12 +5,12 @@ import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { MANAGE_ABOUT_ME_API } from "../../../Utilities/APIs/APIs";
+import { MANAGE_SOCIAL_ICON_API } from "../../../Utilities/APIs/APIs";
 import { fetchSingleItem } from "../utils/fetchSingleItem";
 import CustomEditor from "../../../Components/Partials/CustomIditor/CustomEditor";
 import { uploadImage } from "../../../Utilities/uploadImage";
 
-const UpdateAboutMe = ({ id = null, setEditModal, toggleFetch, ...props }) => {
+const UpdateSocialIcon = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const axiosInstance = useAxiosInstance();
@@ -27,7 +27,7 @@ const UpdateAboutMe = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       fetchSingleItem(
         id,
         axiosInstance,
-        MANAGE_ABOUT_ME_API,
+        MANAGE_SOCIAL_ICON_API,
         setValue,
         setError,
         setIsLoading
@@ -39,30 +39,25 @@ const UpdateAboutMe = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   useEffect(() => {
     if (value) {
       setDefaultValues({
-        title: value?.data?.title || "",
-        image: value?.data?.image || "",
+        name: value?.data?.name || "",
+        link: value?.data?.link || "",
+        position: value?.data?.position || "",
       });
       setDescription(value?.data?.description)
     }
   }, [value]);
 
   const handleSubmit = async (data) => {
-    let imageLink = defaultValues.image;
-
-    if(typeof data?.image !== "string"){
-      
-      imageLink = await uploadImage(data?.image);;
-    }
     try {
       setIsLoading(true);
-      const response = await axiosInstance.patch(
-        `${MANAGE_ABOUT_ME_API}${id}`,
-        {
-          title: data?.title,
-          description: description,
-          image: imageLink,
-        }
-      );
+      const updateData = {
+        name: data.name,
+        link: data.link,
+      };
+
+      const position = !isNaN(data?.position) ? parseInt(data?.position) : 0;
+      updateData.position = position;
+      const response = await axiosInstance.patch(`${MANAGE_SOCIAL_ICON_API}${id}`, updateData);
       if (response.status === 200) {
         toggleFetch();
         setEditModal(false);
@@ -95,29 +90,36 @@ const UpdateAboutMe = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       onSubmit={handleSubmit}
       {...props}
     >
-      {/* <ShortTextInput
-        name="title"
+      <ShortTextInput
+        name="name"
         label="Name"
-        placeholder="Enter Subject name"
+        placeholder="Enter name"
         rules={{ required: "Name is required" }}
         className="mb-2 placeholder:text-gray-400"
-      /> */}
-      <CustomEditor label={"Description"} value={description} setValue={setDescription}/>
-        <ImageInput
-          name={'image'}
-          label={'Image'}
-          className='space-y-1'
-          imagePreviewUrl={defaultValues.image}
-        />
+      />
+      <ShortTextInput
+        name="link"
+        label="Link"
+        placeholder="Enter link"
+        rules={{ required: "Link is required" }}
+        className="mb-2 placeholder:text-gray-400"
+      />
+      <ShortTextInput
+        name="position"
+        label="Position"
+        placeholder="Enter position"
+        rules={{ required: "Position is required" }}
+        className="mb-2 placeholder:text-gray-400"
+      />
       <Button className="mt-6 w-full">
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          "Update AboutMe"
+          "Update Social Icon"
         )}
       </Button>
     </FormWrapper>
   );
 };
 
-export default UpdateAboutMe;
+export default UpdateSocialIcon;

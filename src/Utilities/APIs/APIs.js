@@ -11,6 +11,8 @@ export const MANAGE_ABOUT_ME_API = "aboutMe/";
 export const MANAGE_EXPERIENCE_API = "experience/";
 export const MANAGE_EDUCATION_API = "education/";
 export const MANAGE_SKILL_API = "skill/";
+export const MANAGE_CONTACT_API = "contact/";
+export const MANAGE_SOCIAL_ICON_API = "socialIcon/";
 
 export const WEBSITE_CONTENT_API = "websiteContents/";
 export const APP_SETTINGS_API = WEBSITE_CONTENT_API + "appSettings/";

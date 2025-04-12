@@ -1,29 +1,28 @@
 import {
-  CLTable,
-  CLTableBody,
-  CLTableHeader,
-  Header,
-  CLTableFooter,
-  Modal,
-  CLTableRow,
-  CLTableCell,
-  CLTableActionButtons,
   ArchiveModal,
-  CLTableImageCell,
+  CLTable,
+  CLTableActionButtons,
+  CLTableBody,
+  CLTableCell,
+  CLTableFooter,
+  CLTableHeader,
+  CLTableRow,
+  Modal
 } from "@antopolis/admin-component-library/dist/elements";
-import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEntityState } from "@antopolis/admin-component-library/dist/hooks";
+import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEffect } from "react";
-import {
-  MANAGE_ABOUT_ME_API,
-} from "../../../Utilities/APIs/APIs";
+import CustomHeader from "../../../Components/Partials/CustomHeader/CustomHeader";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import UpdateAboutMe from "./UpdateAboutMe";
-import CreateAboutMe from "./CreateAboutMe";
+import {
+  MANAGE_SOCIAL_ICON_API,
+} from "../../../Utilities/APIs/APIs";
+import CreateSocialIcon from "./CreateSocialIcon";
+import UpdateSocialIcon from "./UpdateSocialIcon";
 
-// import ViewAboutMe from "./ViewAboutMe";
+// import ViewSocialIcon from "./ViewSocialIcon";
 
-function AboutMe() {
+function SocialIcon() {
   const axiosInstance = useAxiosInstance();
   const {
     setFilter,
@@ -52,7 +51,7 @@ function AboutMe() {
   useEffect(() => {
     async function fetchData() {
       const { data, status } = await axiosInstance.get(
-        `${MANAGE_ABOUT_ME_API}?filter=${filter}`,
+        `${MANAGE_SOCIAL_ICON_API}?filter=${filter}`,
         {
           params: {
             page: paginationState.currentPage,
@@ -72,55 +71,37 @@ function AboutMe() {
   }, [toggle, filter, paginationState.currentPage, paginationState.limit]);
 
   const headers = [{ label: "Image" },
-    // { label: "Name" },  
-    { label: "Description" }];
+  // { label: "Name" },  
+  { label: "Description" }];
 
   return (
     <CardLayout>
-      <Header
-        heading="About Me"
-        openModal={setCreateModal}
-        modalLabel="Create New About Me"
-        searchPlaceholder="Search About Me"
-        hasModal={false}
-        filterAndSearchProps={{
-          filter,
-          setFilter,
-          hasSearch: false,
-          hasFilter: true,
-          toggleFilterValue,
-          toggleFilter,
-          setToggleFilter,
-        }}
-      />
+      <CustomHeader title={"Projects"} btnName={"Project"} createModal={createModal} setCreateModal={setCreateModal} hasCreate={true} />
 
       <CLTable>
         <CLTableHeader headers={headers} hasActions={true} />
         <CLTableBody>
 
-                <CLTableRow key={data._id}>
-                <CLTableImageCell
-              url={data?.image}
-              altText={'...'}
-            />
-                  {/* <CLTableCell text={data?.title} /> */}
-                  <CLTableCell text={data?.description} />
-
-                  <CLTableActionButtons
-                    isActive={data?.isActive}
-                    target={data}
-                    hasView={false}
-                    hasEdit={true}
-                    editBtnProps={{ setEditModal, setTarget }}
-                    hasArchive={false}
-                    // archiveBtnProps={{ setArchiveModal, setTarget }}
-                  />
-                </CLTableRow>
+          {
+            data?.map((socialIcon) => (<CLTableRow key={data._id}>
+              <CLTableCell text={socialIcon?.name} />
+              <CLTableCell text={socialIcon?.link} />
+              <CLTableActionButtons
+                isActive={socialIcon?.isActive}
+                target={socialIcon}
+                hasView={false}
+                hasEdit={true}
+                editBtnProps={{ setEditModal, setTarget }}
+                hasArchive={true}
+                archiveBtnProps={{ setArchiveModal, setTarget }}
+              />
+            </CLTableRow>))
+          }
 
         </CLTableBody>
       </CLTable>
       <CLTableFooter
-        dataLabel="AboutMe"
+        dataLabel="SocialIcon"
         hasPagination={true}
         paginationState={paginationState}
         setPaginationState={setPaginationState}
@@ -130,23 +111,23 @@ function AboutMe() {
       <Modal
         isOpen={createModal}
         onClose={setCreateModal}
-        title={"Create New AboutMe"}
+        title={"Create New SocialIcon"}
       >
-        <CreateAboutMe
+        <CreateSocialIcon
           setCreateModal={setCreateModal}
           toggleFetch={toggleFetch}
         />
       </Modal>
 
-      <Modal isOpen={editModal} onClose={setEditModal} title={"Update AboutMe"}>
-        <UpdateAboutMe
+      <Modal isOpen={editModal} onClose={setEditModal} title={"Update SocialIcon"}>
+        <UpdateSocialIcon
           setEditModal={setEditModal}
           id={target?._id}
           toggleFetch={toggleFetch}
         />
       </Modal>
-      {/* <Modal isOpen={viewModal} onClose={setViewModal} title={"View AboutMe"}>
-          <ViewAboutMe />
+      {/* <Modal isOpen={viewModal} onClose={setViewModal} title={"View SocialIcon"}>
+          <ViewSocialIcon />
         </Modal> */}
       {archiveModal && (
         <ArchiveModal
@@ -154,9 +135,8 @@ function AboutMe() {
           onClose={() => setArchiveModal(false)}
           item={target}
           toggleFetch={toggleFetch}
-          api={`${target.isActive ? ARCHIVE_ABOUTME_API : UNARCHIVE_ABOUTME_API}${
-            target?._id
-          }`}
+          api={`${MANAGE_SOCIAL_ICON_API}${target?._id
+            }`}
           axiosInstance={axiosInstance}
           successMessage={`${target?.name} has been archived`}
           isArchive={target?.isActive}
@@ -167,4 +147,4 @@ function AboutMe() {
   );
 }
 
-export default AboutMe;
+export default SocialIcon;

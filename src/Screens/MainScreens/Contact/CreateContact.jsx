@@ -5,10 +5,10 @@ import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
-import { MANAGE_ABOUT_ME_API } from "../../../Utilities/APIs/APIs";
+import { MANAGE_CONTACT_API } from "../../../Utilities/APIs/APIs";
 import { uploadImage } from "../../../Utilities/uploadImage";
 
-export default function CreateAboutMe({ setCreateModal, toggleFetch, ...props }) {
+export default function CreateContact({ setCreateModal, toggleFetch, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const axiosInstance = useAxiosInstance();
 
@@ -17,7 +17,7 @@ export default function CreateAboutMe({ setCreateModal, toggleFetch, ...props })
 
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post(MANAGE_ABOUT_ME_API, {
+      const response = await axiosInstance.post(MANAGE_CONTACT_API, {
         title: data.title,
         description: data.description,
         image: imgLink,
@@ -28,20 +28,20 @@ export default function CreateAboutMe({ setCreateModal, toggleFetch, ...props })
         setCreateModal(false);
         toast({
           title: "Success",
-          description: "AboutMe created successfully",
+          description: "Contact created successfully",
           varitant: "success",
         });
       } else {
         toast({
           title: "Failed",
-          description: "Could not create AboutMe",
+          description: "Could not create Contact",
           varitant: "desctructive",
         });
       }
     } catch (error) {
       toast({
         title: "Failed",
-        description: "Could not create AboutMe",
+        description: "Could not create Contact",
         varitant: "desctructive",
       });
     } finally {
@@ -51,9 +51,9 @@ export default function CreateAboutMe({ setCreateModal, toggleFetch, ...props })
   return (
     <FormWrapper onSubmit={handleSubmit} {...props}>
       <ShortTextInput
-        name="title"
+        name="address"
         label="Name"
-        placeholder="Enter AboutMe name"
+        placeholder="Enter Contact name"
         rules={{ required: "Name is required" }}
         className="mb-2 placeholder:text-gray-400"
       />
@@ -73,7 +73,7 @@ export default function CreateAboutMe({ setCreateModal, toggleFetch, ...props })
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          "Create AboutMe"
+          "Create Contact"
         )}
       </Button>
     </FormWrapper>
