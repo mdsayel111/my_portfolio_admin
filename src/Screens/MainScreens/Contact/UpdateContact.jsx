@@ -39,28 +39,23 @@ const UpdateContact = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   useEffect(() => {
     if (value) {
       setDefaultValues({
-        title: value?.data?.title || "",
-        image: value?.data?.image || "",
+        address: value?.data?.address || "",
+        phone: value?.data?.phone || "",
+        email: value?.data?.email || "",
       });
       setDescription(value?.data?.description)
     }
   }, [value]);
 
   const handleSubmit = async (data) => {
-    let imageLink = defaultValues.image;
-
-    if(typeof data?.image !== "string"){
-      
-      imageLink = await uploadImage(data?.image);;
-    }
     try {
       setIsLoading(true);
       const response = await axiosInstance.patch(
         `${MANAGE_CONTACT_API}${id}`,
         {
-          title: data?.title,
-          description: description,
-          image: imageLink,
+          address: data?.address,
+          phone: data?.phone,
+          email: data?.email,
         }
       );
       if (response.status === 200) {
@@ -95,20 +90,27 @@ const UpdateContact = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       onSubmit={handleSubmit}
       {...props}
     >
-      {/* <ShortTextInput
-        name="title"
+      <ShortTextInput
+        name="address"
         label="Name"
-        placeholder="Enter Subject name"
-        rules={{ required: "Name is required" }}
+        placeholder="Enter Address"
+        rules={{ required: "Address is required" }}
         className="mb-2 placeholder:text-gray-400"
-      /> */}
-      <CustomEditor label={"Description"} value={description} setValue={setDescription}/>
-        <ImageInput
-          name={'image'}
-          label={'Image'}
-          className='space-y-1'
-          imagePreviewUrl={defaultValues.image}
-        />
+      />
+      <ShortTextInput
+        name="phone"
+        label="Name"
+        placeholder="Enter phone"
+        rules={{ required: "phone is required" }}
+        className="mb-2 placeholder:text-gray-400"
+      />
+      <ShortTextInput
+        name="email"
+        label="Name"
+        placeholder="Enter Email"
+        rules={{ required: "Email is required" }}
+        className="mb-2 placeholder:text-gray-400"
+      />
       <Button className="mt-6 w-full">
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />

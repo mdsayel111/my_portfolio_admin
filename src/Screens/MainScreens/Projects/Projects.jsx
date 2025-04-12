@@ -80,6 +80,7 @@ function Projects() {
     { label: "Image" },
     { label: "Name" },
     { label: "Description" },
+    { label: "Position" },
   ];
 
   return (

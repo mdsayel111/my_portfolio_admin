@@ -1,5 +1,5 @@
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
-import { ImageInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
+import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
 import { Loader2 } from "lucide-react";
@@ -42,7 +42,7 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
           // name: value?.data?.name || "",
           image: value?.data?.img || "",
         });
-        setDescription(value?.data?.description)
+        // setDescription(value?.data?.description)
       }
     }, [value]);
 
@@ -94,12 +94,12 @@ const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
     }
   };
 
-  console.log(defaultValues, "date");
+  // console.log(defaultValues, "date");
   return (
     <FormWrapper
       defaultValues={defaultValues}
       onSubmit={handleSubmit}
-      key={`${defaultValues.name}`}
+      // key={`${defaultValues.name}`}
       {...props}
     >
       {/* <ShortTextInput

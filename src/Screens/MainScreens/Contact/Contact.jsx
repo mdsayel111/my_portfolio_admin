@@ -70,9 +70,9 @@ function Contact() {
     fetchData();
   }, [toggle, filter, paginationState.currentPage, paginationState.limit]);
 
-  const headers = [{ label: "Image" },
-    // { label: "Name" },  
-    { label: "Description" }];
+  const headers = [{ label: "Address" },
+    { label: "Phone" },  
+    { label: "E-mail" },]
 
   return (
     <CardLayout>
@@ -98,12 +98,10 @@ function Contact() {
         <CLTableBody>
 
                 <CLTableRow key={data._id}>
-                <CLTableImageCell
-              url={data?.image}
-              altText={'...'}
-            />
-                  {/* <CLTableCell text={data?.title} /> */}
-                  <CLTableCell text={data?.description} />
+                  {console.log(data)}
+                  <CLTableCell text={data?.address} />
+                  <CLTableCell text={data?.phone} />
+                  <CLTableCell text={data?.email} />
 
                   <CLTableActionButtons
                     isActive={data?.isActive}

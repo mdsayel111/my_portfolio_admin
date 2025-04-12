@@ -6,9 +6,8 @@ import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
 import { MANAGE_SKILL_API } from "../../../Utilities/APIs/APIs";
-import { fetchSingleItem } from "../utils/fetchSingleItem";
-import CustomEditor from "../../../Components/Partials/CustomIditor/CustomEditor";
 import { uploadImage } from "../../../Utilities/uploadImage";
+import { fetchSingleItem } from "../utils/fetchSingleItem";
 
 const UpdateSkill = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +58,6 @@ const UpdateSkill = ({ id = null, setEditModal, toggleFetch, ...props }) => {
         `${MANAGE_SKILL_API}${id}`,
         {
           title: data?.title,
-          description: description,
           image: imageLink,
         }
       );
@@ -95,14 +93,14 @@ const UpdateSkill = ({ id = null, setEditModal, toggleFetch, ...props }) => {
       onSubmit={handleSubmit}
       {...props}
     >
-      {/* <ShortTextInput
+      <ShortTextInput
         name="title"
-        label="Name"
-        placeholder="Enter Subject name"
-        rules={{ required: "Name is required" }}
+        label="Title"
+        placeholder="Enter Title"
+        rules={{ required: "Title is required" }}
         className="mb-2 placeholder:text-gray-400"
-      /> */}
-      <CustomEditor label={"Description"} value={description} setValue={setDescription} />
+      />
+      {/* <CustomEditor label={"Description"} value={description} setValue={setDescription} /> */}
       <ImageInput
         name={'image'}
         label={'Image'}

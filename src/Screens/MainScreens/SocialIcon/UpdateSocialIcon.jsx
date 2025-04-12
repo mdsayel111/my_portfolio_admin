@@ -1,6 +1,6 @@
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
 import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
-import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
+import { Button, DropdownMenu } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -90,6 +90,7 @@ const UpdateSocialIcon = ({ id = null, setEditModal, toggleFetch, ...props }) =>
       onSubmit={handleSubmit}
       {...props}
     >
+      <DropdownMenu />
       <ShortTextInput
         name="name"
         label="Name"

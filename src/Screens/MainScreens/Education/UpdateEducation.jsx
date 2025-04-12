@@ -37,8 +37,8 @@ const UpdateEducation = ({ id = null, setEditModal, toggleFetch, ...props }) => 
   useEffect(() => {
     if (value) {
       setDefaultValues({
-        company: value?.data.company || "",
-        position: value?.data.position || "",
+        institute: value?.data.institute || "",
+        department: value?.data.department || "",
         from: value?.data.from || "",
         to: value?.data.to || "",
       });
@@ -53,8 +53,8 @@ const UpdateEducation = ({ id = null, setEditModal, toggleFetch, ...props }) => 
       const response = await axiosInstance.patch(
         `${MANAGE_EDUCATION_API}/${id}`,
         {
-          company: data.company,
-          position: data.position,
+          institute: data.institute,
+          department: data.department,
           from: data.from,
           to: data.to,
         }
@@ -92,7 +92,7 @@ const UpdateEducation = ({ id = null, setEditModal, toggleFetch, ...props }) => 
       {...props}
     >
       <ShortTextInput
-        name="intitute"
+        name="institute"
         label="Institute Name"
         placeholder="Enter institute name"
         rules={{ required: "Name is required" }}
