@@ -23,6 +23,7 @@ import SocialLinks from "./WebsiteContents/SocialLinks/SocialLinks";
 import Subscribers from "./WebsiteContents/Subscribers/Subscribers";
 import HeroAnimationText from "./Hero/HeroAnimationText/HeroAnimationText";
 import AboutMe from "./AboutMe/AboutMe";
+import Experiences from "./Subjects/Experience";
 
 const main = "main/";
 
@@ -33,6 +34,7 @@ const routesConfig = [
   { path: "hero", element: <Hero /> },
   { path: "heroAnimationText/:heroId", element: <HeroAnimationText /> },
   { path: "aboutMe", element: <AboutMe /> },
+  { path: "experience", element: <Experiences /> },
 
 
   { path: "levels", element: <Levels /> },

@@ -32,7 +32,7 @@ const UpdateProject = ({
   }, [id]);
 
   useEffect(() => {
-    if (value) {
+    if (value?.data) {
       setDefaultValues({
         image: value?.data?.imgLink || "",
         projectName: value?.data?.projectName || "",
@@ -43,7 +43,7 @@ const UpdateProject = ({
       });
       console.log(value?.data?.liveLink)
     }
-  }, [value]);
+  }, [value?.data]);
 
   console.log(defaultValues)
 

@@ -77,13 +77,14 @@ function Projects() {
   console.log(data)
 
   const headers = [
+    { label: "Image" },
     { label: "Name" },
     { label: "Description" },
   ];
 
   return (
     <CardLayout>
-      <CustomHeader title={"Projects"} btnName={"Project"} createModal={createModal} setCreateModal={setCreateModal}/>
+      <CustomHeader title={"Projects"} btnName={"Project"} createModal={createModal} setCreateModal={setCreateModal} hasCreate={true}/>
 
       <CLTable>
         <CLTableHeader headers={headers} hasActions={true} />
@@ -95,6 +96,7 @@ function Projects() {
                     url={project?.imgLink}
                     altText={'...'}
                   />
+                  <CLTableCell text={project?.projectName} />
                   <CLTableCell text={project?.description?.slice(0,100)} />
                   <CLTableActionButtons
                     hasView={true}
