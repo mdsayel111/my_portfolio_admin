@@ -13,21 +13,16 @@ import {
 import { useEntityState } from "@antopolis/admin-component-library/dist/hooks";
 import { CardLayout } from "@antopolis/admin-component-library/dist/layout";
 import { useEffect } from "react";
-import CustomModal from "../../../Components/Partials/CustomModal/CustomModal";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
 import {
-  ARCHIVE_EXAM_API,
-  MANAGE_EXAM_API,
-  UNARCHIVE_EXAM_API,
+  MANAGE_EXPERIENCE_API,
 } from "../../../Utilities/APIs/APIs";
-import DownloadCsv from "./components/DownloadCsv";
-import UpdateExam from "./UpdateExam/UpdateExam";
-import ViewExam from "./ViewExam";
-// import UpdateExam from "./UpdateExam";
+import CreateExperience from "./CreateExperience";
+import UpdateExperience from "./UpdateExperience";
 
-// import ViewExam from "./ViewExam";
+// import ViewExperience from "./ViewExperience";
 
-function Exams() {
+function Experiences() {
   const axiosInstance = useAxiosInstance();
   const {
     setFilter,
@@ -38,8 +33,6 @@ function Exams() {
     filter,
     toggle,
     toggleFilter,
-    viewModal,
-    setViewModal,
     data,
     setData,
     target,
@@ -51,14 +44,12 @@ function Exams() {
     setTarget,
     setArchiveModal,
     archiveModal,
-    setTotalPages,
-    setTotalData,
   } = useEntityState();
 
   useEffect(() => {
     async function fetchData() {
-      const { data: exams, status } = await axiosInstance.get(
-        `${MANAGE_EXAM_API}?filter=${filter}`,
+      const { data: experienceData, status } = await axiosInstance.get(
+        `${MANAGE_EXPERIENCE_API}?filter=${filter}`,
         {
           params: {
             page: paginationState.currentPage,
@@ -67,31 +58,26 @@ function Exams() {
         }
       );
       if (status === 200) {
-        setData(exams?.exams);
-        setTotalPages(exams?.totalPages);
-        setTotalData(exams?.totalItems);
+        console.log(experienceData)
+        setData(experienceData?.data);
+        // setTotalPages(experienceData?.totalPages);
+        // setTotalData(experienceData?.totalItems);
       } else {
-        console.error("Failed to fetch Exams:");
+        console.error("Failed to fetch Experiences:");
       }
     }
     fetchData();
-  }, [toggle, filter, paginationState.currentPage, paginationState.limit]);
+  }, [toggle, filter]);
 
-  const headers = [
-    { label: "Venue" },
-    { label: "Email" },
-    { label: "Number" },
-    { label: "Charges" },
-  ];
+  const headers = [{ label: "Company" }, { label: "Position" }, { label: "From" }, { label: "To" }];
 
   return (
     <CardLayout>
       <Header
-        heading="Exams"
+        heading={`Experiences`}
         openModal={setCreateModal}
-        modalLabel="Export Data"
-        searchPlaceholder="Search Exam"
-        hasModal={true}
+        modalLabel="Create New Experience"
+        searchPlaceholder="Search Experience"
         filterAndSearchProps={{
           filter,
           setFilter,
@@ -107,26 +93,21 @@ function Exams() {
         <CLTableHeader headers={headers} hasActions={true} />
         <CLTableBody>
           {data?.length > 0
-            ? data.map((exam) => (
-                <CLTableRow key={exam._id}>
-                  <CLTableCell text={exam?.venue?.name} />
-                  <CLTableCell text={exam?.applicant?.emailAddress} />
-                  <CLTableCell
-                    text={
-                      exam?.applicant?.mobileNumber ||
-                      exam?.applicant?.homeTelephone
-                    }
-                  />
-                  <CLTableCell text={exam?.totalCost} />
+            ? data.map((experience) => (
+                <CLTableRow key={experience._id}>
+                  <CLTableCell text={experience?.company} />
+                  <CLTableCell text={experience?.position} />
+                  <CLTableCell text={experience?.from} />
+                  <CLTableCell text={experience?.to} />
+                  {/* <CLTableCell text={experience?.level?.name} /> */}
 
                   <CLTableActionButtons
-                    isActive={exam?.isActive}
-                    target={exam}
-                    hasEdit={exam.isActive}
+                    isActive={experience?.isActive}
+                    target={experience}
+                    hasView={false}
+                    hasEdit={experience.isActive}
                     editBtnProps={{ setEditModal, setTarget }}
                     archiveBtnProps={{ setArchiveModal, setTarget }}
-                    hasView={true}
-                    viewBtnProps={{ setViewModal, setTarget }}
                   />
                 </CLTableRow>
               ))
@@ -134,57 +115,48 @@ function Exams() {
         </CLTableBody>
       </CLTable>
       <CLTableFooter
-        dataLabel="Exams"
+        dataLabel="Experiences"
         hasPagination={true}
         paginationState={paginationState}
-        setPaginationState={setPaginationState}
         paginationDispatch={setPaginationState}
       />
 
       <Modal
-        contentClassName={"!max-w-2xl"}
-        isOpen={editModal}
-        onClose={setEditModal}
-        title={"Update Exam"}
+        isOpen={createModal}
+        onClose={setCreateModal}
+        title={"Create New Experience"}
       >
-        <UpdateExam
-          toggle={toggle}
+        <CreateExperience
+          setCreateModal={setCreateModal}
+          toggleFetch={toggleFetch}
+        />
+      </Modal>
+
+      <Modal isOpen={editModal} onClose={setEditModal} title={"Update Experience"}>
+        <UpdateExperience
           setEditModal={setEditModal}
           id={target?._id}
           toggleFetch={toggleFetch}
         />
       </Modal>
-      {viewModal && (
-        <CustomModal>
-          <ViewExam target={target} setViewModal={setViewModal} />
-        </CustomModal>
-      )}
+      {/* <Modal isOpen={viewModal} onClose={setViewModal} title={"View Experience"}>
+          <ViewExperience />
+        </Modal> */}
       {archiveModal && (
         <ArchiveModal
           isOpen={archiveModal}
           onClose={() => setArchiveModal(false)}
-          item={{
-            ...target,
-            name: target?._id,
-          }}
+          item={target}
           toggleFetch={toggleFetch}
-          api={`${target.isActive ? ARCHIVE_EXAM_API : UNARCHIVE_EXAM_API}${
-            target?._id
-          }`}
+          api={`${MANAGE_EXPERIENCE_API}${target?._id}`}
           axiosInstance={axiosInstance}
           successMessage={`${target?.name} has been archived`}
           isArchive={target?.isActive}
-          title={target?._id}
+          title={target?.name}
         />
-      )}
-
-      {createModal && (
-        <Modal isOpen={createModal} onClose={setCreateModal}>
-          <DownloadCsv setCreateModal={setCreateModal} />
-        </Modal>
       )}
     </CardLayout>
   );
 }
 
-export default Exams;
+export default Experiences;

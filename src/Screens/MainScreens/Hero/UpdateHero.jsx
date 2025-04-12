@@ -1,5 +1,5 @@
 import { FormWrapper } from "@antopolis/admin-component-library/dist/form";
-import { ImageInput, ShortTextInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
+import { ImageInput } from "@antopolis/admin-component-library/dist/ImageInput-09ba262c";
 import { Button } from "@antopolis/admin-component-library/dist/pagination-a49ce60d";
 import { toast } from "@antopolis/admin-component-library/dist/useToast-64602659";
 import { Loader2 } from "lucide-react";
@@ -10,7 +10,6 @@ import {
 } from "../../../Utilities/APIs/APIs";
 import { uploadImage } from "../../../Utilities/uploadImage";
 import { fetchSingleItem } from "../utils/fetchSingleItem";
-import CustomEditor from "../../../Components/Partials/CustomIditor/CustomEditor";
 
 const UpdateHero = ({ id = null, setEditModal, toggleFetch, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);

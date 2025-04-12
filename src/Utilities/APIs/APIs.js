@@ -1,10 +1,15 @@
 export const IMAGE_URL = import.meta.env.VITE_APP_SPACES_URL;
+export const ARCHIVE_API = "archive/";
+export const UNARCHIVE_API = "unarchive/";
+
 // APIS
 export const MANAGE_RESUME_API = "resume/";
 export const MANAGE_PROJECT_API = "projects/";
 export const MANAGE_HERO_API = "hero/";
 export const MANAGE_HERO_ANIMATION_TEXT_API = "hero/heroAnimationText/";
 export const MANAGE_ABOUT_ME_API = "aboutMe/";
+export const MANAGE_EXPERIENCE_API = "experience/";
+export const MANAGE_SKILL_API = "skill/";
 
 export const WEBSITE_CONTENT_API = "websiteContents/";
 export const APP_SETTINGS_API = WEBSITE_CONTENT_API + "appSettings/";
@@ -18,8 +23,6 @@ export const MANAGE_EMPLOYEE_API = "manageEmployees/";
 //AJ EXAM CENTER
 
 // general
-export const ARCHIVE_API = "archive/";
-export const UNARCHIVE_API = "unarchive/";
 
 // boards
 export const MANAGE_BOARD_API = "manageBoards/boards/";

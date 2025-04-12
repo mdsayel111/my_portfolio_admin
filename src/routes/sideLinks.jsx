@@ -29,7 +29,8 @@ export const links = [
     icon: <FaLevelUpAlt size={20} />,
   },
   {
-    path: "main/venues",
+    path: "main/experience",
+    label: "Experience",
     icon: <FaMapLocationDot size={20} />,
   },
   {

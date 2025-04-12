@@ -8,10 +8,10 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useAxiosInstance } from "../../../Hooks/Instances/useAxiosInstance";
 import {
-  MANAGE_SUBJECT_API
+  MANAGE_EXPERIENCE_API
 } from "../../../Utilities/APIs/APIs";
 
-export default function CreateSubject({
+export default function CreateExperience({
   setCreateModal,
   toggleFetch,
   ...props
@@ -22,35 +22,35 @@ export default function CreateSubject({
   const { subLevelId } = CLUseParams();
 
   const handleSubmit = async (data) => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("info", data.info);
-    formData.append("code", data.code);
-    // formData.append("level", level);
-    formData.append("subLevel", subLevelId);
+
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post(MANAGE_SUBJECT_API, formData);
+      const response = await axiosInstance.post(MANAGE_EXPERIENCE_API, {
+        company: data.company,
+        position: data.position,
+        from: data.from,
+        to: data.to,
+      });
 
       if (response.status === 200) {
         toggleFetch();
         setCreateModal(false);
         toast({
           title: "Success",
-          description: "Subject created successfully",
+          description: "Experience created successfully",
           varitant: "success",
         });
       } else {
         toast({
           title: "Failed",
-          description: "Could not create Subject",
+          description: "Could not create Experience",
           varitant: "desctructive",
         });
       }
     } catch (error) {
       toast({
         title: "Failed",
-        description: "Could not create Subject",
+        description: "Could not create Experience",
         varitant: "desctructive",
       });
     } finally {
@@ -60,29 +60,37 @@ export default function CreateSubject({
   return (
     <FormWrapper onSubmit={handleSubmit} {...props}>
       <ShortTextInput
-        name="name"
-        label="Name"
-        placeholder="Enter Subject name"
+        name="company"
+        label="Company Name"
+        placeholder="Enter Experience name"
         rules={{ required: "Name is required" }}
         className="mb-2 placeholder:text-gray-400"
       />
       <ShortTextInput
-        name="info"
-        label="Info"
-        placeholder="Enter Info"
+        name="position"
+        label="Position"
+        placeholder="Enter Position"
+        className="mb-2 placeholder:text-gray-400"
+      />
+      <div className="flex justify-between">
+      <ShortTextInput
+        name="from"
+        label="From"
+        placeholder="Enter From"
         className="mb-2 placeholder:text-gray-400"
       />
       <ShortTextInput
-        name="code"
-        label="Code"
-        placeholder="Enter Subject code"
+        name="to"
+        label="To"
+        placeholder="Enter TO"
         className="mb-2 placeholder:text-gray-400"
       />
+      </div>
       <Button className="mt-6 w-full">
         {isLoading ? (
           <Loader2 className="mr-2 w-4 h-4 animate-spin" />
         ) : (
-          "Create Subject"
+          "Create Experience"
         )}
       </Button>
     </FormWrapper>
